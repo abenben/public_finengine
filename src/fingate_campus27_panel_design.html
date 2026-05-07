@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パネルディスカッション設計書 — FinGATE Campus #27</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:       #1F3864;
+    --navy-mid:   #2E5096;
+    --accent:     #2E75B6;
+    --accent-lt:  #D6E4F0;
+    --gold:       #BF8F00;
+    --gold-lt:    #FFF2CC;
+    --green-lt:   #E2EFDA;
+    --red-lt:     #FFE2E2;
+    --gray-100:   #F7F9FC;
+    --gray-200:   #EDF0F5;
+    --gray-600:   #6B7A99;
+    --text:       #1A1A2E;
+    --border:     #C9D3E8;
+    --radius:     8px;
+    --shadow:     0 2px 12px rgba(31,56,100,.10);
+  }
+
+  body {
+    font-family: "Meiryo", "Yu Gothic", "ヒラギノ角ゴ ProN", "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+    background: #F0F4FA;
+  }
+
+  /* ── Layout ── */
+  .wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ── Hero Header ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: #fff;
+    padding: 48px 40px 36px;
+    border-radius: 0 0 var(--radius) var(--radius);
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 240px; height: 240px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.30);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13px;
+    opacity: .88;
+  }
+  .hero-meta span::before { margin-right: 5px; opacity: .7; }
+  .hero-meta .m-date::before  { content: "📅"; }
+  .hero-meta .m-time::before  { content: "⏱"; }
+  .hero-meta .m-venue::before { content: "📍"; }
+  .hero-meta .m-tool::before  { content: "📱"; }
+
+  /* ── TOC ── */
+  .toc {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+  }
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-600);
+    letter-spacing: .10em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .toc ol {
+    padding-left: 20px;
+    columns: 2;
+    column-gap: 28px;
+  }
+  .toc li { margin: 3px 0; }
+  .toc a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .toc a:hover { text-decoration: underline; }
+
+  /* ── Section Cards ── */
+  .section {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header .sec-num {
+    background: rgba(255,255,255,.18);
+    border-radius: 50%;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .section-body { padding: 24px; }
+
+  /* ── Sub-section (Segment cards) ── */
+  .segment {
+    background: var(--gray-100);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .segment-header {
+    background: var(--accent-lt);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .segment-header .time-chip {
+    background: var(--navy);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+  .segment-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .segment-body { padding: 16px 18px; }
+
+  /* ── Label / Purpose box ── */
+  .purpose-box {
+    background: var(--gold-lt);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5A3800;
+  }
+  .purpose-box::before { content: "🎯 目的 "; font-weight: 800; }
+
+  /* ── Speech quote ── */
+  .speech {
+    background: var(--green-lt);
+    border: 1px solid #B7DFB4;
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 13px;
+    position: relative;
+  }
+  .speech::before {
+    content: "💬";
+    margin-right: 8px;
+  }
+  .speech em { font-style: normal; font-weight: 700; color: var(--navy); }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0;
+  }
+  th {
+    background: var(--navy);
+    color: #fff;
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--gray-100); }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── Ordered / Unordered lists ── */
+  .section-body ol,
+  .section-body ul,
+  .segment-body ol,
+  .segment-body ul {
+    padding-left: 22px;
+    margin: 8px 0;
+  }
+  li { margin: 4px 0; font-size: 13px; }
+
+  /* ── Timeline block ── */
+  .timeline {
+    background: var(--navy);
+    color: #E8F0FF;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 2.0;
+    margin: 8px 0;
+  }
+  .timeline .tl-row { display: flex; gap: 20px; }
+  .timeline .tl-time { color: #90B8F8; font-weight: 700; flex-shrink: 0; min-width: 50px; }
+  .timeline .tl-label { color: #E8F0FF; }
+  .timeline .tl-note { color: rgba(255,255,255,.45); font-size: 12px; }
+
+  /* ── Note / Warning box ── */
+  .note {
+    background: var(--red-lt);
+    border: 1px solid #F4A8A8;
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    margin: 10px 0;
+  }
+  .note::before { content: "⚠️ "; }
+
+  /* ── Q list ── */
+  .q-group { margin-bottom: 20px; }
+  .q-group-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--navy);
+    border-bottom: 2px solid var(--accent-lt);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .q-item {
+    background: var(--gray-100);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin: 6px 0;
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .q-item .q-tag {
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── Moderator guide ── */
+  .mod-block { margin-bottom: 20px; }
+  .mod-block h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Time mgmt table ── */
+  .time-table th { background: var(--navy-mid); }
+  .time-table td:first-child { font-weight: 700; color: var(--navy); white-space: nowrap; }
+
+  /* ── Compliance box ── */
+  .compliance-item {
+    background: var(--accent-lt);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 8px 12px;
+    margin: 6px 0;
+    font-size: 13px;
+  }
+
+  /* ── Conflict axis chip ── */
+  .axis {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gray-200);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 12px;
+    margin: 8px 0;
+  }
+  .axis .a-side {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-weight: 700;
+    font-size: 11px;
+    flex: 1;
+    text-align: center;
+  }
+  .axis .a-vs {
+    font-weight: 900;
+    color: var(--gray-600);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .axis .a-side.right { background: var(--navy); }
+
+  /* ── Label inline ── */
+  .label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-right: 4px;
+  }
+  .label-blue { background: var(--accent-lt); color: var(--navy); }
+  .label-gray { background: var(--gray-200); color: var(--gray-600); }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    color: var(--gray-600);
+    font-size: 11px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .wrapper { max-width: 100%; padding: 0; }
+    .hero { border-radius: 0; }
+    .section { box-shadow: none; border: 1px solid var(--border); }
+    .toc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrapper">
+    <div class="badge">PANEL DESIGN DOCUMENT</div>
+    <h1>パネルディスカッション設計書<br>FinGATE Campus #27</h1>
+    <div class="hero-meta">
+      <span class="m-date">作成日: 2026年5月7日</span>
+      <span class="m-time">パネル時間: 19:40〜20:35（55分）</span>
+      <span class="m-venue">会場: FinGATE KAYABA</span>
+      <span class="m-tool">Q&Aツール: Slido</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">目次</div>
+    <ol>
+      <li><a href="#sec1">基本構成</a></li>
+      <li><a href="#sec2">全体ナラティブ</a></li>
+      <li><a href="#sec3">タイムライン</a></li>
+      <li><a href="#sec4">セグメント詳細</a></li>
+      <li><a href="#sec5">質問リスト</a></li>
+      <li><a href="#sec6">モデレーターガイド</a></li>
+      <li><a href="#sec7">当日の注意事項</a></li>
+    </ol>
+  </div>
+
+  <!-- Section 1: 基本構成 -->
+  <div class="section" id="sec1">
+    <div class="section-header">
+      <div class="sec-num">1</div>
+      <h2>基本構成</h2>
+    </div>
+    <div class="section-body">
+      <table>
+        <thead>
+          <tr><th>役割</th><th>氏名</th><th>所属・役職</th><th>備考</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="label label-blue">モデレーター</span></td>
+            <td><strong>藤井 達人</strong></td>
+            <td>みずほFG 執行役員・CAO</td>
+            <td>FinEngine共同創設者</td>
+          </tr>
+          <tr>
+            <td><span class="label label-gray">パネリスト</span></td>
+            <td><strong>関口 諒</strong></td>
+            <td>堀総合法律事務所 弁護士</td>
+            <td>基調講演後に参加</td>
+          </tr>
+          <tr>
+            <td><span class="label label-gray">パネリスト</span></td>
+            <td><strong>永吉 健一</strong></td>
+            <td>みんなの銀行 取締役頭取</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="label label-gray">パネリスト</span></td>
+            <td><strong>中井 沙織</strong></td>
+            <td>三井住友FG デジタル戦略部</td>
+            <td>FinEngine共同運営者</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 2: 全体ナラティブ -->
+  <div class="section" id="sec2">
+    <div class="section-header">
+      <div class="sec-num">2</div>
+      <h2>全体ナラティブ</h2>
+    </div>
+    <div class="section-body">
+      <div class="speech" style="font-size:14px; font-weight:600; line-height:1.9;">
+        「法改正は"脅威"ではなく"設計図"だ。今日ここで得た3人の視点を手がかりに、<br>自分の組織が今週から動けるアクションを1つ決めて帰る。」
+      </div>
+      <p style="margin-top:14px; font-size:13px; color:#333; line-height:1.9;">
+        前半（法改正・実務・ガバナンス）で「何が変わるか・何をすべきか」を明確にし、後半（Slido Q&A・テーマ4）で「自分の組織ではどうするか」という個人化を促す構造。
+        関口先生の基調講演で法の骨格を学んだ参加者が、<strong>永吉さん（デジタルバンク経営者視点）</strong>と<strong>中井さん（メガバンク実務視点）</strong>の対比から現場の知恵を引き出す形を目指す。
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 3: タイムライン -->
+  <div class="section" id="sec3">
+    <div class="section-header">
+      <div class="sec-num">3</div>
+      <h2>タイムライン（55分）</h2>
+    </div>
+    <div class="section-body">
+      <div class="timeline">
+        <div class="tl-row"><span class="tl-time">19:40</span><span class="tl-label">自己紹介セクション</span><span class="tl-note">（5分）</span></div>
+        <div class="tl-row"><span class="tl-time">19:45</span><span class="tl-label">テーマ1 — 法改正の全体像と事業インパクト</span><span class="tl-note">（9分）</span></div>
+        <div class="tl-row"><span class="tl-time">19:54</span><span class="tl-label">テーマ2 — 暗号資産・ステーブルコインの実務対応</span><span class="tl-note">（9分）</span></div>
+        <div class="tl-row"><span class="tl-time">20:03</span><span class="tl-label">テーマ3 — ガバナンス高度化</span><span class="tl-note">（8分）</span></div>
+        <div class="tl-row"><span class="tl-time">20:11</span><span class="tl-label">Slido / 会場Q&amp;A</span><span class="tl-note">（9分）</span></div>
+        <div class="tl-row"><span class="tl-time">20:20</span><span class="tl-label">テーマ4 — 今後の備え・連携・注目点</span><span class="tl-note">（6分）</span></div>
+        <div class="tl-row"><span class="tl-time">20:26</span><span class="tl-label">まとめ — 各自一言</span><span class="tl-note">（5分）</span></div>
+        <div class="tl-row"><span class="tl-time">20:31</span><span class="tl-label">クロージング</span><span class="tl-note">（4分）</span></div>
+        <div class="tl-row"><span class="tl-time">20:35</span><span class="tl-label">パネル終了 → MCへ返す</span><span class="tl-note"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: セグメント詳細 -->
+  <div class="section" id="sec4">
+    <div class="section-header">
+      <div class="sec-num">4</div>
+      <h2>セグメント詳細</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- Seg 0 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">19:40〜19:45</span>
+          <h3>セグメント0 — 自己紹介（5分）</h3>
+        </div>
+        <div class="segment-body">
+          <div class="purpose-box">永吉さん・中井さんをまだ知らない参加者に各登壇者のバックグラウンドを簡潔に伝え、パネルへの期待値を高める。</div>
+          <table>
+            <thead><tr><th>順</th><th>登壇者</th><th>時間</th><th>重点</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><strong>藤井 達人</strong>（モデレーター）</td><td>1分</td><td>FinEngine立ち上げの経緯・本パネルへの期待</td></tr>
+              <tr><td>2</td><td><strong>永吉 健一</strong></td><td>2分</td><td>みんなの銀行で体験してきた法・規制との対峙経験</td></tr>
+              <tr><td>3</td><td><strong>中井 沙織</strong></td><td>2分</td><td>大手FGのデジタル戦略部からみた今回の法改正の意味</td></tr>
+              <tr><td>※</td><td><strong>関口 諒</strong></td><td>スキップ</td><td>基調講演にて自己紹介済み</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12.5px; margin-top:10px; color:#333; font-weight:700;">想定される流れ:</p>
+          <ul>
+            <li>藤井さんが「まず私から」と率先して話し、テンポを作る</li>
+            <li>永吉さんは「デジタルバンクとして常に規制と格闘してきた」という角度で話すと対比が生まれる</li>
+            <li>中井さんは「大手FGの実務担当者の視点」を強調してもらい、永吉さんとの対比を明確に</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Seg 1 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">19:45〜19:54</span>
+          <h3>セグメント1 — テーマ1: 法改正の全体像と事業インパクト（9分）</h3>
+        </div>
+        <div class="segment-body">
+          <div class="purpose-box">関口先生の基調講演を受け、「で、私たちは具体的に何をすべきか？」という問いに三者が答えを重ねていく。</div>
+          <p style="font-size:13px; font-weight:700; margin-bottom:6px;">論点:</p>
+          <ol>
+            <li>暗号資産制度WG報告のポイントと今後のスケジュール（関口）</li>
+            <li>FIEAへの移行が事業者に与える最も大きなインパクト（永吉・中井）</li>
+            <li>業界全体として今から準備すべき「一番急ぎの対応事項」とは何か</li>
+          </ol>
+          <p style="font-size:13px; font-weight:700; margin: 10px 0 6px;">議論の深め方:</p>
+          <ul>
+            <li>関口先生の講演に出てきた「FIEA移行」のキーワードをモデレーターが拾い、「永吉さん、みんなの銀行として一番ドキッとした部分はどこですか？」という形で肉付けする</li>
+            <li>中井さんには「大手FGの場合、法務・コンプライアンスへの通知だけで何ヶ月かかりますか？」と規模感の差を引き出す</li>
+          </ul>
+          <div class="note" style="margin-top:12px;">短縮プラン（2分削減）: 関口先生の回答のみで「業界の見方」の共有とみなし、永吉・中井への深掘り質問を1問に絞る</div>
+        </div>
+      </div>
+
+      <!-- Seg 2 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">19:54〜20:03</span>
+          <h3>セグメント2 — テーマ2: 暗号資産・ステーブルコインの実務対応（9分）</h3>
+        </div>
+        <div class="segment-body">
+          <div class="purpose-box">法の話から「現場では今何が起きているか」にギアを入れ替え、実務担当者が持ち帰れる情報を積む。</div>
+          <p style="font-size:13px; font-weight:700; margin-bottom:6px;">論点:</p>
+          <ol>
+            <li>ステーブルコイン仲介業の実務要件とシステム基盤整備のリアル</li>
+            <li>電子決済手段（ステーブルコイン）は現在どのフェーズにあるか</li>
+            <li>実務担当者が「今週から」着手できること</li>
+          </ol>
+          <p style="font-size:13px; font-weight:700; margin: 10px 0 6px;">議論の深め方:</p>
+          <ul>
+            <li>永吉さんに「みんなの銀行はステーブルコインをどう位置づけているか」を先に聞き、次に中井さんに「SMBCグループとしての方向性」を聞く</li>
+            <li>「今すぐできること」は具体的に3つ挙げてもらう（抽象論に終わらせない）</li>
+          </ul>
+          <p style="font-size:13px; font-weight:700; margin: 10px 0 6px;">対立軸:</p>
+          <div class="axis">
+            <div class="a-side">インフラ・決済として積極的に普及させる派</div>
+            <div class="a-vs">vs</div>
+            <div class="a-side right">リスク管理から慎重に進める派</div>
+          </div>
+          <p style="font-size:12px; color:#555; margin-top:6px;">どちらが正しいかではなく、「組織の文化と状況によって異なる」という結論に着地させる。</p>
+        </div>
+      </div>
+
+      <!-- Seg 3 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">20:03〜20:11</span>
+          <h3>セグメント3 — テーマ3: ガバナンス高度化（8分）</h3>
+        </div>
+        <div class="segment-body">
+          <div class="purpose-box">「技術」「法」の話から「組織と人」の話に移し、参加者全員に当事者意識を持たせる。</div>
+          <p style="font-size:13px; font-weight:700; margin-bottom:6px;">論点:</p>
+          <ol>
+            <li>暗号資産交換業者に求められるガバナンス高度化の具体像</li>
+            <li>内部統制・カストディ・監査証跡の整備状況と課題</li>
+            <li>「金融機関」と「スタートアップ/新興事業者」のそれぞれが学べること</li>
+          </ol>
+          <p style="font-size:13px; font-weight:700; margin: 10px 0 6px;">議論の深め方:</p>
+          <ul>
+            <li>「ガバナンスが整っていない組織が直面するリスク、一言で言えば？」という端的な質問でスタート</li>
+            <li>関口先生に「法律家としてガバナンス不備で実際に問題になった事例パターン」を聞く（具体事例は匿名・一般化で）</li>
+            <li>永吉さんと中井さんに「自分たちが最も時間をかけているガバナンス課題」を1つ挙げてもらう</li>
+          </ul>
+          <div class="note" style="margin-top:12px;">短縮プラン（2分削減）: 「各自1課題を30秒で宣言」形式に切り替え、深掘りなしで次へ</div>
+        </div>
+      </div>
+
+      <!-- Seg 4 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">20:11〜20:20</span>
+          <h3>セグメント4 — Slido / 会場Q&amp;A（9分）</h3>
+        </div>
+        <div class="segment-body">
+          <div class="purpose-box">参加者の疑問を登壇者が正直に答えることで、セミナーではなく「同じ問題に向き合う仲間の対話」の場に変える。</div>
+          <p style="font-size:13px; font-weight:700; margin-bottom:6px;">進行方法:</p>
+          <ol>
+            <li>Slidoの投票数上位から2〜3問を藤井さんがピックアップ</li>
+            <li>各質問に最適な回答者を1名指名し、補足を別の登壇者に求める</li>
+            <li>会場挙手質問 1〜2問（時間が残れば）</li>
+          </ol>
+          <div class="note" style="margin-top:12px;">時間管理: 8分を下回らない。質問が盛り上がった場合はテーマ4を1分削るが、まとめは絶対に削らない。</div>
+        </div>
+      </div>
+
+      <!-- Seg 5 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">20:20〜20:26</span>
+          <h3>セグメント5 — テーマ4: 今後の備え・連携・注目点（6分）</h3>
+        </div>
+        <div class="segment-body">
+          <div class="purpose-box">「今日学んだこと」を未来に接続し、参加者が長期視点を持てるようにする。</div>
+          <p style="font-size:13px; font-weight:700; margin-bottom:6px;">論点:</p>
+          <ol>
+            <li>金融機関・事業会社が2026年後半に向けて備えること</li>
+            <li>業界横断の連携・協働が生まれやすい領域はどこか</li>
+            <li>2026年後半〜2027年に目が離せないポイント</li>
+          </ol>
+          <p style="font-size:13px; font-weight:700; margin: 10px 0 6px;">議論の深め方:</p>
+          <ul>
+            <li>「6ヶ月後、この業界はどんな状況になっていると予想しますか？」という問いでスタート</li>
+            <li>予測の根拠を30秒で言ってもらう（長くなりすぎ防止）</li>
+          </ul>
+          <div class="note" style="margin-top:12px;">短縮プラン: テーマ4を2〜3分に圧縮し、各自「一言予測」のみ収集してまとめへ移行</div>
+        </div>
+      </div>
+
+      <!-- Seg 6 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">20:26〜20:31</span>
+          <h3>セグメント6 — まとめ: 各自一言（5分）</h3>
+        </div>
+        <div class="segment-body">
+          <div class="purpose-box">登壇者それぞれの「参加者へのメッセージ」でパネルを締め、参加者が帰路でも思い出せる言葉を残す。</div>
+          <p style="font-size:13px; font-weight:700; margin-bottom:6px;">進行:</p>
+          <ul>
+            <li>藤井さんが「最後に一言ずつ」とリードし、<strong>逆順（中井→永吉→関口）</strong>で回す</li>
+            <li>各自1分以内（厳守）</li>
+            <li>関口先生が最後になるのは「法律家から見た今日の総括」として自然な流れになる</li>
+          </ul>
+          <div class="compliance-item" style="margin-top:12px;">
+            <strong>モデレーターへの注文:</strong> まとめが終わったら「本日のパネルはここまでです。皆さん、ありがとうございました」と明確に締め、MCの水津さんへ返す合図（目線・手振り）を忘れずに。
+          </div>
+        </div>
+      </div>
+
+      <!-- Seg 7 -->
+      <div class="segment">
+        <div class="segment-header">
+          <span class="time-chip">20:31〜20:35</span>
+          <h3>セグメント7 — クロージング（4分）</h3>
+        </div>
+        <div class="segment-body">
+          <p style="font-size:13px;">MCの水津さんが引き継ぎ、ネットワーキング・懇親会案内へ移行。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 5: 質問リスト -->
+  <div class="section" id="sec5">
+    <div class="section-header">
+      <div class="sec-num">5</div>
+      <h2>質問リスト</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="q-group">
+        <div class="q-group-title">主質問 — 各テーマの導入に使う質問</div>
+
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin: 8px 0 4px;">テーマ1（法改正）</p>
+        <div class="q-item"><span class="q-tag">T1</span><span>「基調講演を踏まえて、永吉さんが"これは準備が大変だ"と思った点はどこですか？」</span></div>
+        <div class="q-item"><span class="q-tag">T1</span><span>「中井さん、大手FGとして今回の法改正に対応するうえで、最初の壁は何でしょうか？」</span></div>
+
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin: 12px 0 4px;">テーマ2（実務対応）</p>
+        <div class="q-item"><span class="q-tag">T2</span><span>「ステーブルコイン仲介業について、今現在どこまで準備が進んでいますか？正直なところを聞かせてください。」</span></div>
+        <div class="q-item"><span class="q-tag">T2</span><span>「関口先生から見て、実務担当者が"勘違いしやすいポイント"はどこですか？」</span></div>
+
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin: 12px 0 4px;">テーマ3（ガバナンス）</p>
+        <div class="q-item"><span class="q-tag">T3</span><span>「ガバナンス高度化、一言で言うと"何が一番難しいですか"？」</span></div>
+        <div class="q-item"><span class="q-tag">T3</span><span>「内部統制の整備で"これをやっておいてよかった"という取り組みを1つ挙げてください。」</span></div>
+
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin: 12px 0 4px;">テーマ4（今後）</p>
+        <div class="q-item"><span class="q-tag">T4</span><span>「6ヶ月後のこの業界、どんな変化が起きていると思いますか？」</span></div>
+        <div class="q-item"><span class="q-tag">T4</span><span>「業界横断の連携が実現するとしたら、どんな形が現実的ですか？」</span></div>
+      </div>
+
+      <div class="q-group">
+        <div class="q-group-title">深掘り質問 — 議論が浅くなったときに使う</div>
+        <div class="q-item"><span class="q-tag">深</span><span>「具体的にはどういうことか、もう少し聞かせていただけますか？」</span></div>
+        <div class="q-item"><span class="q-tag">深</span><span>「永吉さんはどう思いますか？中井さんと見方が違う気がして。」</span></div>
+        <div class="q-item"><span class="q-tag">深</span><span>「それは御社特有の話ですか？それとも業界全体に当てはまると思いますか？」</span></div>
+        <div class="q-item"><span class="q-tag">深</span><span>「参加者の方々、同じ課題を抱えている方いらっしゃいますか？（挙手を促す）」</span></div>
+        <div class="q-item"><span class="q-tag">深</span><span>「失敗事例はありますか？差し支えない範囲で。」</span></div>
+      </div>
+
+      <div class="q-group">
+        <div class="q-group-title">予備質問 — 時間が余った場合・議論の転換に使う</div>
+        <div class="q-item"><span class="q-tag">予備</span><span>「今日のパネリストに相談できるとしたら、まず何から聞きたいですか？（Slidoで会場に問いかける）」</span></div>
+        <div class="q-item"><span class="q-tag">予備</span><span>「デジタルアセット規制で、日本が他国より"進んでいる"と思う点はありますか？」</span></div>
+        <div class="q-item"><span class="q-tag">予備</span><span>「関口先生、もし自分がスタートアップの創業者だったら、今日の法改正をどう受け止めますか？」</span></div>
+        <div class="q-item"><span class="q-tag">予備</span><span>「10年後、暗号資産という言葉はまだ使われていると思いますか？」</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 6: モデレーターガイド -->
+  <div class="section" id="sec6">
+    <div class="section-header">
+      <div class="sec-num">6</div>
+      <h2>モデレーターガイド — 藤井達人さん向け</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="mod-block">
+        <h4>🎤 開会宣言（〜19:40:30）</h4>
+        <div class="speech">「ありがとうございます。それでは、パネルディスカッションを始めます。私は本日モデレーターを務めます、みずほフィナンシャルグループの藤井と申します。」</div>
+      </div>
+
+      <div class="mod-block">
+        <h4>🎤 自己紹介セクション（19:40〜19:45）</h4>
+        <p style="font-size:12.5px; font-weight:700; color:var(--gray-600); margin:8px 0 4px;">藤井さん自身の自己紹介（1分）:</p>
+        <div class="speech">「まず私から簡単に自己紹介させてください。みずほフィナンシャルグループで執行役員、CAO——Chief AI Officer——を務めております。FinEngineという金融×テクノロジーのコミュニティをいくつかの仲間と一緒に立ち上げまして、今日の場もその延長線上にあります。本日はこの4人でどこまで深い議論ができるか楽しみにしています。それでは、永吉さんお願いします。」</div>
+        <p style="font-size:12.5px; font-weight:700; color:var(--gray-600); margin:12px 0 4px;">永吉さん導入（2分目安）:</p>
+        <div class="speech">「永吉さん、みんなの銀行という日本初のデジタルバンクを率いていらっしゃいます。自己紹介と、今日のテーマへの一言をお願いします。」</div>
+        <p style="font-size:12px; color:var(--gray-600); margin:4px 0 4px 16px;">（2分経過したら）</p>
+        <div class="speech">「ありがとうございます。続いて、中井さん。」</div>
+        <p style="font-size:12.5px; font-weight:700; color:var(--gray-600); margin:12px 0 4px;">中井さん導入（2分目安）:</p>
+        <div class="speech">「三井住友フィナンシャルグループのデジタル戦略部、そしてFinEngineの共同運営者でもある中井さん。よろしくお願いします。」</div>
+        <p style="font-size:12px; color:var(--gray-600); margin:4px 0 4px 16px;">（2分経過したら）</p>
+        <div class="speech">「ありがとうございます。そして関口先生は、先ほどの基調講演で詳しく自己紹介いただきましたので、改めてのご紹介は省略します。あの基調講演を受けて、さらに深い話をこれから聞いていきます。では早速ディスカッションに入りましょう。」</div>
+      </div>
+
+      <div class="mod-block">
+        <h4>⏱ 議論中の時間管理ポイント</h4>
+        <table class="time-table">
+          <thead><tr><th>タイミング</th><th>アクション</th></tr></thead>
+          <tbody>
+            <tr><td>各テーマ 残り2分</td><td>「少し時間が迫っておりますが、最後にひと言ずつ。」</td></tr>
+            <tr><td>登壇者が話しすぎ</td><td>「ありがとうございます、そのポイント非常に大事ですね。〇〇さんはいかがですか？」とリダイレクト</td></tr>
+            <tr><td>Slido時間 残り1分</td><td>「もう1問だけ、Slidoから拾わせてください。」</td></tr>
+            <tr><td>テーマ4 短縮が必要</td><td>「少し時間が押してきましたので、各自30秒で予測を一言ずつ。」</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mod-block">
+        <h4>⚖️ 中立性・コンプライアンスの注意点</h4>
+        <div class="compliance-item">特定企業の製品・サービスへの言及が出始めたら、「一般的な傾向として」「御社の取り組みの文脈で」と和らげる</div>
+        <div class="compliance-item">「これに投資すべき」「この通貨が有望」などの表現が出たら、「今のは投資家向けアドバイスではなく、事業者としての見解として理解しましょう」と補足する</div>
+        <div class="compliance-item">法解釈の断定（「これは違法です」等）が出たら、「あくまで現時点の関口先生の解釈として参考にしつつ、各社の法務部門にも確認を」と添える</div>
+      </div>
+
+      <div class="mod-block">
+        <h4>🎤 クロージング（20:31〜20:35）</h4>
+        <div class="speech" style="font-size:13.5px;">「本日は非常に充実した55分でした。法改正という難しいテーマを、実務の最前線にいる皆さんに正直に語っていただいて、参加者の皆さんにとっても大変価値ある時間になったのではないかと思います。関口先生、永吉さん、中井さん、ありがとうございました。それでは水津さん、後をよろしくお願いします。」</div>
+        <p style="font-size:12px; color:var(--gray-600); margin-top:6px;">（目線を水津MCへ向け、マイクを渡す）</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 7: 当日注意事項 -->
+  <div class="section" id="sec7">
+    <div class="section-header">
+      <div class="sec-num">7</div>
+      <h2>当日の注意事項</h2>
+    </div>
+    <div class="section-body">
+      <ul style="list-style:none; padding:0;">
+        <li style="display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border);">
+          <span style="font-size:18px; flex-shrink:0;">📱</span>
+          <span>Slidoの投票は<strong>テーマ1開始時点（19:45）</strong>から受付開始するよう、MCと事前確認</span>
+        </li>
+        <li style="display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border);">
+          <span style="font-size:18px; flex-shrink:0;">⏱</span>
+          <span>テーマ4は唯一の「短縮バッファ」。時間が押した場合は2〜3分に圧縮し、「予測一言ずつ」に変更</span>
+        </li>
+        <li style="display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--border);">
+          <span style="font-size:18px; flex-shrink:0;">🔄</span>
+          <span>まとめの逆順（<strong>中井→永吉→関口</strong>）は必ず守ること。関口先生が最後に「法律家の言葉で今日を締める」ことでパネルが締まる</span>
+        </li>
+        <li style="display:flex; gap:10px; align-items:flex-start; padding:10px 0;">
+          <span style="font-size:18px; flex-shrink:0;">⚠️</span>
+          <span>自己紹介セクションで永吉さん・中井さんが超過した場合、テーマ1の深掘り質問を1問削って調整する</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    FinGATE Campus #27 — パネルディスカッション設計書 | 作成日: 2026年5月7日 | 配布対象: 登壇者・当日運営スタッフ
+  </footer>
+
+</div>
+
+</body>
+</html>
