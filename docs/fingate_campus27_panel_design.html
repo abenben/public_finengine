@@ -120,12 +120,14 @@
     .timeline tr:nth-child(even) td { background: #f4f7fb; }
     .time-col { font-weight: 700; color: #1a4f8a; white-space: nowrap; font-size: 13px; }
     .segment-col { font-weight: 600; }
+    .intro-row { border-left: 3px solid #0891b2; }
     .t1 { border-left: 3px solid #3b82f6; }
     .t2 { border-left: 3px solid #10b981; }
     .t3 { border-left: 3px solid #ef4444; }
     .slido-row { border-left: 3px solid #f59e0b; }
     .t4 { border-left: 3px solid #8b5cf6; }
     .wrap { border-left: 3px solid #6b7280; }
+    .intro-card .card-header { background: #0e7490; }
 
     .theme-card {
       border-radius: 8px;
@@ -339,25 +341,31 @@
         <tr>
           <td class="time-col">19:40</td>
           <td>オープニング（T0：ステーブルコインは金融インフラとして見る）</td>
-          <td>4分</td>
+          <td>2分</td>
           <td>藤井</td>
         </tr>
+        <tr class="intro-row">
+          <td class="time-col">19:42</td>
+          <td class="segment-col">自己紹介（藤井1分・永吉2分・中井2分・関口スキップ）</td>
+          <td>5分</td>
+          <td><span class="speaker-tag sp-fujii">藤井</span><span class="speaker-tag sp-nagayoshi">永吉</span><span class="speaker-tag sp-nakai">中井</span></td>
+        </tr>
         <tr class="t1">
-          <td class="time-col">19:44</td>
+          <td class="time-col">19:47</td>
           <td class="segment-col">T1: 顧客は誰になるのか</td>
-          <td>10分</td>
+          <td>9分</td>
           <td><span class="speaker-tag sp-fujii">藤井</span><span class="speaker-tag sp-nagayoshi">永吉</span><span class="speaker-tag sp-nakai">中井</span></td>
         </tr>
         <tr class="t2">
-          <td class="time-col">19:54</td>
+          <td class="time-col">19:56</td>
           <td class="segment-col">T2: 発行・使う・つなぐ</td>
-          <td>10分</td>
+          <td>9分</td>
           <td><span class="speaker-tag sp-nagayoshi">永吉</span><span class="speaker-tag sp-nakai">中井</span><span class="speaker-tag sp-sekiguchi">関口（補足）</span></td>
         </tr>
         <tr class="t3">
-          <td class="time-col">20:04</td>
+          <td class="time-col">20:05</td>
           <td class="segment-col">T3: 壊れたとき、誰が損をするのか</td>
-          <td>10分</td>
+          <td>9分</td>
           <td><span class="speaker-tag sp-sekiguchi">関口（主役）</span><span class="speaker-tag sp-nagayoshi">永吉</span><span class="speaker-tag sp-nakai">中井</span></td>
         </tr>
         <tr class="slido-row">
@@ -401,21 +409,43 @@
   </section>
 
   <section>
-    <h2>オープニング（4分）19:40〜19:44</h2>
+    <h2>オープニング（2分）19:40〜19:42</h2>
     <p><strong>目的:</strong> 「法律の話から金融の前提を問い直す話へ」という明確な転換</p>
     <h3>藤井さんの冒頭フレーム（読み上げ用）</h3>
     <div class="info-box">
-      「関口先生、30分間ありがとうございました。法律の枠組みはよくわかりました。さて、ここからは一段引いた話をします。ステーブルコインを暗号資産として見るのではなく、金融インフラとして見る。そうすると今まで見えなかった問いが浮かびます——お金がソフトウェアになると、誰が顧客で、誰が損をして、誰がどのレイヤーを取るのか。今日のパネルはこの問いを、実際に動いている当事者たちと話す55分にしたいと思います。では、永吉さん・中井さん、今の一言ずつお願いします。」
+      「関口先生、30分間ありがとうございました。法律の枠組みはよくわかりました。さて、ここからは一段引いた話をします。ステーブルコインを暗号資産として見るのではなく、金融インフラとして見る。そうすると今まで見えなかった問いが浮かびます——お金がソフトウェアになると、誰が顧客で、誰が損をして、誰がどのレイヤーを取るのか。今日のパネルはこの問いを、実際に動いている当事者たちと話す55分にしたいと思います。まず、お三方の自己紹介を少しいただきます。」
     </div>
-    <ul>
-      <li><strong>永吉さん:</strong> みんなの銀行として今「デジタルアセット関連でもっとも動いていること」を一言</li>
-      <li><strong>中井さん:</strong> SMFGデジタル戦略部として「今週取り組んでいること」を一言</li>
-      <li><strong>関口先生:</strong> スキップ（基調講演で十分に自己紹介済み）</li>
-    </ul>
   </section>
 
   <section>
-    <h2>T1: 顧客は誰になるのか（10分）19:44〜19:54</h2>
+    <h2>自己紹介（5分）19:42〜19:47</h2>
+    <p><strong>目的:</strong> 前段の基調講演（関口先生）以外のパネリストが、名前・立場・今取り組んでいることを参加者に伝える</p>
+    <div class="theme-card intro-card">
+      <div class="card-header">
+        <span>自己紹介</span>
+        <span>関口先生スキップ・他3名</span>
+        <span class="badge">5分</span>
+      </div>
+      <div class="card-body">
+        <table class="guide-table">
+          <thead>
+            <tr><th>時間</th><th>担当</th><th>内容</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1分</td><td><span class="speaker-tag sp-fujii">藤井 達人</span></td><td>名前・役職（みずほFG執行役員CAO / FinEngine共同創設者）・今日ここで語る立場</td></tr>
+            <tr><td>2分</td><td><span class="speaker-tag sp-nagayoshi">永吉 健一</span></td><td>名前・役職（みんなの銀行 取締役頭取）・デジタルバンクとして今注力していること</td></tr>
+            <tr><td>2分</td><td><span class="speaker-tag sp-nakai">中井 沙織</span></td><td>名前・役職（SMFG デジタル戦略部）・SMFGのデジタル戦略として今取り組んでいること</td></tr>
+            <tr><td>—</td><td><span class="speaker-tag sp-sekiguchi">関口 諒</span></td><td>スキップ（基調講演30分で登壇・自己紹介済み）</td></tr>
+          </tbody>
+        </table>
+        <div class="question-label">藤井さんのつなぎ（読み上げ用）</div>
+        <div class="question-text">「では、まず私から——（1分）——続いて、永吉さんお願いします。」<br>→ 永吉さん（2分）後<br>「ありがとうございます。中井さん、お願いします。」<br>→ 中井さん（2分）後<br>「ありがとうございます。では、最初のテーマに入ります。」</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>T1: 顧客は誰になるのか（9分）19:47〜19:56</h2>
     <div class="theme-card t1-card">
       <div class="card-header">
         <span>T1</span>
@@ -442,7 +472,7 @@
   </section>
 
   <section>
-    <h2>T2: 発行・使う・つなぐ（10分）19:54〜20:04</h2>
+    <h2>T2: 発行・使う・つなぐ（9分）19:56〜20:05</h2>
     <div class="theme-card t2-card">
       <div class="card-header">
         <span>T2</span>
@@ -473,7 +503,7 @@
   </section>
 
   <section>
-    <h2>T3: 壊れたとき、誰が損をするのか（10分）20:04〜20:14</h2>
+    <h2>T3: 壊れたとき、誰が損をするのか（9分）20:05〜20:14</h2>
     <div class="theme-card t3-card">
       <div class="card-header">
         <span>T3</span>
@@ -569,10 +599,12 @@
         <tr><th>チェックポイント</th><th>時刻</th><th>アクション</th></tr>
       </thead>
       <tbody>
-        <tr><td>T1終了予告</td><td class="time-cell">19:52</td><td class="action-cell">「最後の質問にします」</td></tr>
-        <tr><td>T2開始</td><td class="time-cell">19:54</td><td class="action-cell">「3択の話をします」</td></tr>
-        <tr><td>T2終了予告</td><td class="time-cell">20:02</td><td class="action-cell">「関口先生に一言もらって次へ」</td></tr>
-        <tr><td>T3開始</td><td class="time-cell">20:04</td><td class="action-cell">「壊れたときの話をします」</td></tr>
+        <tr><td>自己紹介開始</td><td class="time-cell">19:42</td><td class="action-cell">「では、まず私から自己紹介を」</td></tr>
+        <tr><td>T1開始</td><td class="time-cell">19:47</td><td class="action-cell">「最初のテーマに入ります」</td></tr>
+        <tr><td>T1終了予告</td><td class="time-cell">19:54</td><td class="action-cell">「最後の質問にします」</td></tr>
+        <tr><td>T2開始</td><td class="time-cell">19:56</td><td class="action-cell">「3択の話をします」</td></tr>
+        <tr><td>T2終了予告</td><td class="time-cell">20:03</td><td class="action-cell">「関口先生に一言もらって次へ」</td></tr>
+        <tr><td>T3開始</td><td class="time-cell">20:05</td><td class="action-cell">「壊れたときの話をします」</td></tr>
         <tr><td>T3終了予告</td><td class="time-cell">20:12</td><td class="action-cell">「最後の質問にします」</td></tr>
         <tr><td>Slido開始</td><td class="time-cell">20:14</td><td class="action-cell">「Slido（x.gd/S0wfv）に質問を」</td></tr>
         <tr><td>Slido終了</td><td class="time-cell">20:22</td><td class="action-cell">「最後に1問だけ」</td></tr>
