@@ -5,566 +5,626 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>パネルディスカッション設計書 — FinGATE Campus #27</title>
   <style>
-    :root {
-      --navy: #1a2744;
-      --gold: #c8a84b;
-      --gold-light: #f0e0a0;
-      --bg: #f8f7f4;
-      --white: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --highlight: #fffbeb;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
       font-size: 15px;
       line-height: 1.75;
+      color: #1a1a2e;
+      background: #f8f9fc;
     }
-
-    .alert-banner {
-      background: #7f1d1d;
-      color: #fef2f2;
-      padding: 0.6rem 2rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-align: center;
+    .header {
+      background: #0d2240;
+      color: #fff;
+      padding: 32px 48px 28px;
     }
-    .alert-banner span {
-      background: #ef4444;
-      color: white;
-      border-radius: 3px;
-      padding: 0.1rem 0.5rem;
-      margin-right: 0.5rem;
-      font-size: 0.72rem;
+    .header .event-label {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: #c9a84c;
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
-
-    header {
-      background: linear-gradient(135deg, var(--navy) 0%, #2d3f6e 100%);
-      color: var(--white);
-      padding: 2.5rem 2rem 2rem;
-    }
-    .header-inner { max-width: 860px; margin: 0 auto; }
-    .event-badge {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--navy);
-      font-size: 0.7rem;
+    .header h1 {
+      font-size: 22px;
       font-weight: 700;
-      letter-spacing: 0.1em;
-      padding: 0.2rem 0.7rem;
-      border-radius: 3px;
-      margin-bottom: 0.75rem;
+      line-height: 1.4;
+      margin-bottom: 6px;
     }
-    header h1 { font-size: 1.55rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.4; }
-    .header-meta { font-size: 0.82rem; opacity: 0.75; }
-    .header-meta span { margin-right: 1.2rem; }
-
-    main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
-
-    section { margin-bottom: 2.5rem; }
-
-    h2 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--navy);
-      border-left: 4px solid var(--gold);
-      padding-left: 0.75rem;
-      margin-bottom: 1rem;
+    .header .subtitle {
+      font-size: 13px;
+      color: #b0bcc8;
+      margin-bottom: 20px;
     }
-    h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin: 1.2rem 0 0.5rem;
-      padding-bottom: 0.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .narrative {
-      background: var(--navy);
-      color: var(--white);
-      border-radius: 8px;
-      padding: 1.25rem 1.5rem;
-      font-size: 0.95rem;
-      line-height: 1.8;
-      margin-bottom: 1rem;
-    }
-    .narrative em { color: var(--gold-light); font-style: normal; font-weight: 600; }
-
-    .principle-box {
-      background: #f0fdf4;
-      border: 1px solid #86efac;
-      border-radius: 6px;
-      padding: 0.85rem 1rem;
-      font-size: 0.83rem;
-      margin-top: 0.75rem;
-    }
-    .principle-box ul { margin-left: 1.2rem; }
-    .principle-box li { padding: 0.15rem 0; }
-
-    .table-wrap { overflow-x: auto; margin: 0.75rem 0 1rem; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    thead tr { background: var(--navy); color: var(--white); }
-    thead th { padding: 0.55rem 0.8rem; text-align: left; font-weight: 600; font-size: 0.8rem; }
-    tbody tr { border-bottom: 1px solid var(--border); }
-    tbody tr:nth-child(even) { background: #f9fafb; }
-    tbody td { padding: 0.55rem 0.8rem; vertical-align: top; }
-
-    .tag-mod { background: #dbeafe; color: #1e40af; border-radius: 3px; padding: 0.1rem 0.4rem; font-size: 0.72rem; font-weight: 600; }
-    .tag-pan { background: #d1fae5; color: #065f46; border-radius: 3px; padding: 0.1rem 0.4rem; font-size: 0.72rem; font-weight: 600; }
-
-    .timeline { list-style: none; margin: 0.75rem 0; }
-    .timeline li {
+    .header .meta {
       display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.45rem 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.88rem;
-    }
-    .tl-time { flex-shrink: 0; font-weight: 700; color: var(--navy); font-size: 0.82rem; width: 3.5rem; }
-    .tl-dur { flex-shrink: 0; font-size: 0.75rem; color: var(--muted); background: var(--border); border-radius: 3px; padding: 0.1rem 0.4rem; white-space: nowrap; }
-    .tl-label { flex: 1; }
-    .tl-badge { font-size: 0.68rem; font-weight: 700; background: #fef3c7; color: #92400e; border-radius: 3px; padding: 0.1rem 0.4rem; margin-left: 0.4rem; }
-
-    .segment-card { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1.25rem; overflow: hidden; }
-    .segment-header {
-      background: var(--navy);
-      color: var(--white);
-      padding: 0.6rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 24px;
       flex-wrap: wrap;
-      gap: 0.3rem;
+      font-size: 13px;
+      color: #8aa0b4;
     }
-    .segment-title { font-weight: 700; font-size: 0.9rem; }
-    .segment-time { font-size: 0.78rem; opacity: 0.8; }
-    .segment-body { padding: 1rem; }
-    .segment-purpose {
-      background: #eff6ff;
-      border-left: 3px solid #93c5fd;
-      padding: 0.5rem 0.75rem;
-      font-size: 0.82rem;
-      margin-bottom: 0.9rem;
-      border-radius: 0 4px 4px 0;
+    .header .meta span { white-space: nowrap; }
+    .header .meta strong { color: #c9a84c; }
+
+    .panel-title-block {
+      background: linear-gradient(135deg, #1a4f8a 0%, #0d2240 100%);
+      color: #fff;
+      padding: 24px 48px;
+      border-bottom: 3px solid #c9a84c;
+    }
+    .panel-title-block .title-label {
+      font-size: 11px;
+      color: #c9a84c;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+    .panel-title-block h2 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .panel-title-block .panel-subtitle {
+      font-size: 13px;
+      color: #8ab0cc;
     }
 
-    .q-block {
-      background: var(--highlight);
-      border-left: 3px solid var(--gold);
-      border-radius: 0 4px 4px 0;
-      padding: 0.6rem 0.85rem;
-      margin-bottom: 0.6rem;
-      font-size: 0.85rem;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
     }
-    .q-label { font-size: 0.72rem; font-weight: 700; color: var(--muted); margin-bottom: 0.15rem; }
-    .q-text { color: var(--navy); font-weight: 600; }
-    .q-note { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; font-style: italic; }
 
-    .moderator-note {
+    section { margin-bottom: 40px; }
+    section h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0d2240;
+      border-left: 4px solid #c9a84c;
+      padding: 6px 12px;
+      background: #eef2f8;
+      margin-bottom: 16px;
+      border-radius: 0 4px 4px 0;
+    }
+    section h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a4f8a;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    section p { margin-bottom: 10px; }
+    section ul, section ol {
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+    section li { margin-bottom: 4px; }
+
+    .timeline {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .timeline th {
+      background: #0d2240;
+      color: #c9a84c;
+      padding: 9px 12px;
+      text-align: left;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+    .timeline td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 14px;
+    }
+    .timeline tr:nth-child(even) td { background: #f4f7fb; }
+    .time-col { font-weight: 700; color: #1a4f8a; white-space: nowrap; font-size: 13px; }
+    .segment-col { font-weight: 600; }
+    .t1 { border-left: 3px solid #3b82f6; }
+    .t2 { border-left: 3px solid #10b981; }
+    .t3 { border-left: 3px solid #ef4444; }
+    .slido-row { border-left: 3px solid #f59e0b; }
+    .t4 { border-left: 3px solid #8b5cf6; }
+    .wrap { border-left: 3px solid #6b7280; }
+
+    .theme-card {
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .theme-card .card-header {
+      padding: 12px 16px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .theme-card .card-header .badge {
+      background: rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .t1-card .card-header { background: #1a4f8a; }
+    .t2-card .card-header { background: #0f7a4e; }
+    .t3-card .card-header { background: #b91c1c; }
+    .t4-card .card-header { background: #6d28d9; }
+    .slido-card .card-header { background: #c5690a; }
+    .theme-card .card-body {
+      padding: 16px;
+      background: #fff;
+    }
+    .theme-card .question-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      margin-top: 12px;
+    }
+    .theme-card .question-label:first-child { margin-top: 0; }
+    .theme-card .question-text {
+      font-size: 14px;
+      background: #f4f7fb;
+      border-left: 3px solid #c9a84c;
+      padding: 8px 12px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .speaker-tag {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+    .sp-fujii { background: #dbeafe; color: #1e40af; }
+    .sp-sekiguchi { background: #fce7f3; color: #9d174d; }
+    .sp-nagayoshi { background: #d1fae5; color: #065f46; }
+    .sp-nakai { background: #ede9fe; color: #4c1d95; }
+
+    .info-box {
       background: #f0f9ff;
-      border-left: 3px solid #38bdf8;
-      border-radius: 0 4px 4px 0;
-      padding: 0.45rem 0.75rem;
-      font-size: 0.78rem;
-      color: #0369a1;
-      margin-top: 0.3rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .guide-box {
-      background: var(--highlight);
-      border: 1px solid var(--gold);
-      border-radius: 6px;
-      padding: 0.85rem 1rem;
-      font-size: 0.85rem;
-      margin: 0.75rem 0;
-      line-height: 1.7;
-    }
-
-    .tips { margin: 0.6rem 0; }
-    .tips li { padding: 0.25rem 0 0.25rem 1.2rem; position: relative; font-size: 0.85rem; }
-    .tips li::before { content: "▸"; position: absolute; left: 0; color: var(--gold); }
-
-    .compliance {
-      background: #fef2f2;
-      border: 1px solid #fca5a5;
-      border-radius: 6px;
-      padding: 0.8rem 1rem;
-      font-size: 0.82rem;
-      margin-top: 0.75rem;
-    }
-    .compliance h4 { color: #b91c1c; font-size: 0.8rem; margin-bottom: 0.4rem; }
-
-    .slido-presets {
-      background: #f5f3ff;
-      border: 1px solid #c4b5fd;
-      border-radius: 6px;
-      padding: 0.8rem 1rem;
-      font-size: 0.83rem;
-      margin-top: 0.75rem;
-    }
-    .slido-presets h4 { color: #5b21b6; font-size: 0.8rem; margin-bottom: 0.5rem; }
-    .slido-presets li { margin-left: 1.2rem; padding: 0.15rem 0; }
-
-    .caution {
-      background: #fef2f2;
-      border-left: 4px solid #ef4444;
+      border-left: 4px solid #0ea5e9;
+      padding: 12px 16px;
       border-radius: 0 6px 6px 0;
-      padding: 0.8rem 1rem;
-      font-size: 0.83rem;
-      margin: 0.75rem 0;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .warning-box {
+      background: #fff7ed;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 12px 0;
+      font-size: 14px;
     }
 
-    .action-grid {
+    .guide-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+    .guide-table th {
+      background: #374151;
+      color: #f9fafb;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .guide-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+    }
+    .guide-table tr:nth-child(even) td { background: #f9fafb; }
+    .guide-table .time-cell { font-weight: 700; color: #1a4f8a; white-space: nowrap; }
+    .guide-table .action-cell { font-style: italic; color: #374151; }
+
+    .speaker-grid {
       display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.3rem 0.8rem;
-      font-size: 0.83rem;
-      margin: 0.6rem 0;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 12px 0;
     }
-    .action-time { font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .speaker-block {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+    }
+    .speaker-block .sp-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .speaker-block .sp-org { font-size: 12px; color: #6b7280; margin-bottom: 8px; }
+    .speaker-block .sp-role { font-size: 13px; color: #374151; }
 
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      color: var(--muted);
-      font-size: 0.75rem;
-      border-top: 1px solid var(--border);
-      margin-top: 2rem;
+    .prohibit-list { list-style: none; padding: 0; }
+    .prohibit-list li {
+      padding: 6px 12px 6px 32px;
+      position: relative;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+    }
+    .prohibit-list li::before {
+      content: "✕";
+      position: absolute;
+      left: 10px;
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    .footer {
+      background: #0d2240;
+      color: #6b7280;
+      font-size: 12px;
+      padding: 20px 48px;
+      margin-top: 40px;
     }
 
     @media (max-width: 600px) {
-      header { padding: 1.5rem 1rem 1.25rem; }
-      header h1 { font-size: 1.2rem; }
-      main { padding: 1.25rem 1rem 3rem; }
+      .header { padding: 20px 16px; }
+      .panel-title-block { padding: 16px; }
+      .container { padding: 16px 12px 40px; }
+      .speaker-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<div class="alert-banner">
-  <span>最重要</span>2026年5月14日（木）— 米上院銀行委員会 CLARITY法マークアップ。イベント8日前。当日議論の最大フック。
+<div class="header">
+  <div class="event-label">FinGATE Campus #27 — Panel Discussion Design</div>
+  <h1>パネルディスカッション設計書</h1>
+  <div class="subtitle">確定テーマ最終版 | 2026年5月22日（金）</div>
+  <div class="meta">
+    <span><strong>作成日</strong> 2026-05-15</span>
+    <span><strong>モデレーター</strong> 藤井 達人（みずほFG CAO）</span>
+    <span><strong>Slido</strong> x.gd/S0wfv</span>
+    <span><strong>パネル時間</strong> 19:40〜20:35（55分）</span>
+  </div>
 </div>
 
-<header>
-  <div class="header-inner">
-    <div class="event-badge">FinGATE Campus #27 × FinEngine #65</div>
-    <h1>パネルディスカッション設計書</h1>
-    <div class="header-meta">
-      <span>📅 2026年5月22日（金）19:40〜20:35</span>
-      <span>📍 FinGATE KAYABA</span>
-      <span>🎤 Slido</span>
-    </div>
-  </div>
-</header>
+<div class="panel-title-block">
+  <div class="title-label">PANEL TITLE</div>
+  <h2>金融機関は何を担うのか</h2>
+  <div class="panel-subtitle">お金がソフトウェアになる時代 ― ステーブルコイン、AIエージェント、デジタルアセットが問い直す信用・決済・銀行の役割</div>
+</div>
 
-<main>
+<div class="container">
 
-  <!-- 基本構成 -->
   <section>
-    <h2>1. 基本構成</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>役割</th><th>氏名</th><th>所属・役職</th><th>位置づけ</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><span class="tag-mod">モデレーター</span></td>
-            <td><strong>藤井 達人</strong></td>
-            <td style="font-size:0.8rem;color:var(--muted);">みずほFG 執行役員・CAO</td>
-            <td>議論の流れを設計し、自身のAI×デジタルアセットの知見を要所で加える</td>
-          </tr>
-          <tr>
-            <td><span class="tag-pan">パネリスト</span></td>
-            <td><strong>関口 諒</strong></td>
-            <td style="font-size:0.8rem;color:var(--muted);">堀総合法律事務所 弁護士</td>
-            <td>FIEA改正案・CLARITY法を法実務の観点から解釈する</td>
-          </tr>
-          <tr>
-            <td><span class="tag-pan">パネリスト</span></td>
-            <td><strong>永吉 健一</strong></td>
-            <td style="font-size:0.8rem;color:var(--muted);">みんなの銀行 取締役頭取</td>
-            <td>BaaS・ステーブルコイン事業化の当事者として実務経験を語る</td>
-          </tr>
-          <tr>
-            <td><span class="tag-pan">パネリスト</span></td>
-            <td><strong>中井 沙織</strong></td>
-            <td style="font-size:0.8rem;color:var(--muted);">三井住友FG デジタル戦略部</td>
-            <td>ステーブルコイン実証実験の直接経験者として現場リアルを語る</td>
-          </tr>
-        </tbody>
-      </table>
+    <h2>登壇者</h2>
+    <div class="speaker-grid">
+      <div class="speaker-block">
+        <div class="sp-name">藤井 達人</div>
+        <div class="sp-org">みずほフィナンシャルグループ 執行役員・CAO</div>
+        <div class="sp-role">モデレーター / T1の語り手（CAO視点）</div>
+      </div>
+      <div class="speaker-block">
+        <div class="sp-name">関口 諒</div>
+        <div class="sp-org">堀総合法律事務所 弁護士</div>
+        <div class="sp-role">T3の主役（法的責任・顧客保護） / 基調講演後参加</div>
+      </div>
+      <div class="speaker-block">
+        <div class="sp-name">永吉 健一</div>
+        <div class="sp-org">みんなの銀行 取締役頭取</div>
+        <div class="sp-role">T2の主役①（デジタルバンク視点）</div>
+      </div>
+      <div class="speaker-block">
+        <div class="sp-name">中井 沙織</div>
+        <div class="sp-org">三井住友フィナンシャルグループ デジタル戦略部</div>
+        <div class="sp-role">T2の主役②（メガバンク視点）</div>
+      </div>
     </div>
   </section>
 
-  <!-- 全体ナラティブ -->
   <section>
-    <h2>2. 全体ナラティブ</h2>
-    <div class="narrative">
-      「今週の木曜日（5/14）にCLARITY法の上院審議が始まる。4月に国会提出されたFIEA改正案が審議されている。分離課税20%はすでに法律として成立した。—— このパネルはそのリアルタイムの渦中にいる当事者3名の本音を聞く場だ。今日帰ったら、今週中に<em>"一つのアクション"</em>を決める。」
-    </div>
-    <div class="principle-box">
-      <strong>パネルの設計原則:</strong>
-      <ul>
-        <li>藤井さんは「問いを発する・視点を加える・議論を発展させる」役割。パネリストへの問いかけと同時に、自身のAI×デジタルアセットの知見を議論の節目で重ねていく</li>
-        <li>関口先生・永吉さん・中井さんは今週・来週の業界変化の当事者として語る</li>
-        <li>参加者も「自分の組織が今日から何を決断するか迫られた当事者」として対話する</li>
-      </ul>
-    </div>
+    <h2>タイムライン</h2>
+    <table class="timeline">
+      <thead>
+        <tr>
+          <th>時刻</th>
+          <th>セグメント</th>
+          <th>時間</th>
+          <th>主担当</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-col">19:40</td>
+          <td>オープニング（T0：ステーブルコインは金融インフラとして見る）</td>
+          <td>4分</td>
+          <td>藤井</td>
+        </tr>
+        <tr class="t1">
+          <td class="time-col">19:44</td>
+          <td class="segment-col">T1: 顧客は誰になるのか</td>
+          <td>10分</td>
+          <td><span class="speaker-tag sp-fujii">藤井</span><span class="speaker-tag sp-nagayoshi">永吉</span><span class="speaker-tag sp-nakai">中井</span></td>
+        </tr>
+        <tr class="t2">
+          <td class="time-col">19:54</td>
+          <td class="segment-col">T2: 発行・使う・つなぐ</td>
+          <td>10分</td>
+          <td><span class="speaker-tag sp-nagayoshi">永吉</span><span class="speaker-tag sp-nakai">中井</span><span class="speaker-tag sp-sekiguchi">関口（補足）</span></td>
+        </tr>
+        <tr class="t3">
+          <td class="time-col">20:04</td>
+          <td class="segment-col">T3: 壊れたとき、誰が損をするのか</td>
+          <td>10分</td>
+          <td><span class="speaker-tag sp-sekiguchi">関口（主役）</span><span class="speaker-tag sp-nagayoshi">永吉</span><span class="speaker-tag sp-nakai">中井</span></td>
+        </tr>
+        <tr class="slido-row">
+          <td class="time-col">20:14</td>
+          <td class="segment-col">Slido / 会場Q&amp;A</td>
+          <td>9分</td>
+          <td><span class="speaker-tag sp-fujii">藤井（さばき）</span>＋全員</td>
+        </tr>
+        <tr class="t4">
+          <td class="time-col">20:23</td>
+          <td class="segment-col">T4: 12ヶ月以内に動くのはどこか</td>
+          <td>8分</td>
+          <td>全員（一人称）</td>
+        </tr>
+        <tr class="wrap">
+          <td class="time-col">20:31</td>
+          <td>まとめ・月曜日の問い</td>
+          <td>4分</td>
+          <td>中井→永吉→関口→藤井</td>
+        </tr>
+        <tr>
+          <td class="time-col">20:35</td>
+          <td>終了 → MCへ</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 
-  <!-- タイムライン -->
   <section>
-    <h2>3. タイムライン（55分）</h2>
-    <ul class="timeline">
-      <li><span class="tl-time">19:40</span><span class="tl-dur">5分</span><span class="tl-label"><strong>自己紹介セクション</strong></span></li>
-      <li><span class="tl-time">19:45</span><span class="tl-dur">9分</span><span class="tl-label"><strong>テーマ1</strong> — 「今週」の法制度変化と事業インパクト<span class="tl-badge">CLARITY法 5/14</span></span></li>
-      <li><span class="tl-time">19:54</span><span class="tl-dur">9分</span><span class="tl-label"><strong>テーマ2</strong> — ステーブルコイン「実装の現在地」とクロスボーダーへの接続<span class="tl-badge">実体験</span></span></li>
-      <li><span class="tl-time">20:03</span><span class="tl-dur">8分</span><span class="tl-label"><strong>テーマ3</strong> — 規制整備後の"気づき"と競争構造の変化<span class="tl-badge">AI×DA</span></span></li>
-      <li><span class="tl-time">20:11</span><span class="tl-dur">9分</span><span class="tl-label" style="color:#6d28d9;font-weight:600;">🎤 Slido / 会場Q&amp;A</span></li>
-      <li><span class="tl-time">20:20</span><span class="tl-dur">6分</span><span class="tl-label"><strong>テーマ4</strong> — 6ヶ月後の予測と「今週できる1つのアクション」</span></li>
-      <li><span class="tl-time">20:26</span><span class="tl-dur">5分</span><span class="tl-label"><strong>まとめ</strong> — 各自一言（逆順: 中井→永吉→関口）</span></li>
-      <li><span class="tl-time">20:31</span><span class="tl-dur">4分</span><span class="tl-label"><strong>クロージング</strong> → MCへ返す</span></li>
+    <h2>全体ナラティブ</h2>
+    <div class="info-box">
+      「お金がソフトウェアになる。AIエージェントが支払う。銀行口座が複数の民間主体によって設計される。これは遠い未来の話ではなく、今すでに始まっている。では、この変化の中で、自分の会社は何を担うのか。帰ったら月曜日に、一つ問いを立ててほしい。」
+    </div>
+    <ul>
+      <li><strong>哲学的な問いで始めて、事業判断で終わる</strong>（T1→T2→T3→T4の流れ）</li>
+      <li>成功事例の紹介合戦を避ける（T3の「壊れたとき」がブレーキ役）</li>
+      <li>持ち帰りは「制度への知識」ではなく「自社は何を担うのかという問い」</li>
     </ul>
   </section>
 
-  <!-- セグメント詳細 -->
   <section>
-    <h2>4. セグメント詳細</h2>
+    <h2>オープニング（4分）19:40〜19:44</h2>
+    <p><strong>目的:</strong> 「法律の話から金融の前提を問い直す話へ」という明確な転換</p>
+    <h3>藤井さんの冒頭フレーム（読み上げ用）</h3>
+    <div class="info-box">
+      「関口先生、30分間ありがとうございました。法律の枠組みはよくわかりました。さて、ここからは一段引いた話をします。ステーブルコインを暗号資産として見るのではなく、金融インフラとして見る。そうすると今まで見えなかった問いが浮かびます——お金がソフトウェアになると、誰が顧客で、誰が損をして、誰がどのレイヤーを取るのか。今日のパネルはこの問いを、実際に動いている当事者たちと話す55分にしたいと思います。では、永吉さん・中井さん、今の一言ずつお願いします。」
+    </div>
+    <ul>
+      <li><strong>永吉さん:</strong> みんなの銀行として今「デジタルアセット関連でもっとも動いていること」を一言</li>
+      <li><strong>中井さん:</strong> SMFGデジタル戦略部として「今週取り組んでいること」を一言</li>
+      <li><strong>関口先生:</strong> スキップ（基調講演で十分に自己紹介済み）</li>
+    </ul>
+  </section>
 
-    <div class="segment-card">
-      <div class="segment-header">
-        <span class="segment-title">セグメント0：自己紹介</span>
-        <span class="segment-time">19:40〜19:45（5分）</span>
+  <section>
+    <h2>T1: 顧客は誰になるのか（10分）19:44〜19:54</h2>
+    <div class="theme-card t1-card">
+      <div class="card-header">
+        <span>T1</span>
+        <span>顧客は誰になるのか</span>
+        <span class="badge">AIエージェントが支払う時代</span>
       </div>
-      <div class="segment-body">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>登壇者</th><th>時間</th><th>盛り込むフック</th></tr></thead>
-            <tbody>
-              <tr><td><strong>藤井 達人</strong></td><td>1分</td><td>みずほのAI推進室を70名体制に拡充。「AI×デジタルアセットを同時に動かしている立場から、今日の議論に視点を加えたい」という文脈で</td></tr>
-              <tr><td><strong>永吉 健一</strong></td><td>2分</td><td>BaaS事業が30社超のパートナーとの連携に拡大。ステーブルコイン×web3ウォレットの事業化を進めている旨に触れてもらう</td></tr>
-              <tr><td><strong>中井 沙織</strong></td><td>2分</td><td>マイナンバーカード×ステーブルコイン決済の実証実験（2026年1月）「やってみて一番驚いたことを30秒で」</td></tr>
-              <tr><td>関口 諒</td><td>スキップ</td><td>基調講演にて自己紹介済み</td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="card-body">
+        <div class="question-label">根本の問い</div>
+        <p>AIエージェントやAPIが支払う時代、人間の意思決定はどこに残るのか</p>
+        <div class="question-label">主担当</div>
+        <p><span class="speaker-tag sp-fujii">藤井（CAO視点・自ら語る）</span> 中心。<span class="speaker-tag sp-nagayoshi">永吉</span> <span class="speaker-tag sp-nakai">中井</span> に銀行側の受け止めを聞く。<span class="speaker-tag sp-sekiguchi">関口先生</span>: このテーマでは聴衆として聞いていればOK</p>
+        <div class="question-label">進行（1分）藤井さん自ら語る</div>
+        <div class="question-text">「最初のテーマ。5月12日にCircle Agent Stackが発表されました。AIエージェントがUSDCでナノ決済をする時代が現実になっています。みずほのCAOとして、私はこれをこう見ています——（自身の見方を1分で語る）——では、銀行として顧客の定義が変わるとしたら何が変わるか。永吉さんから聞きます。」</div>
+        <div class="question-label">進行（3.5分）→ 永吉さんへ</div>
+        <div class="question-text">「みんなの銀行の頭取として、AIエージェントが銀行口座を持ち、自律的に決済する世界を想像したとき——KYCは誰を審査するのですか？与信は誰に対して行うのですか？銀行法上の"顧客"は誰になりますか？」</div>
+        <div class="question-label">進行（3.5分）→ 中井さんへ</div>
+        <div class="question-text">「中井さん、SMFGのデジタル戦略部として、人ではなくソフトウェアが決済する時代、メガバンクの顧客定義はどう変わりますか？それとも変えないという判断もありますか？」</div>
+        <div class="question-label">深掘り（余れば）</div>
+        <div class="question-text">「人間の意思決定が金融のどこに残ると思いますか？10秒で。」（全員一言）</div>
+        <div class="question-label">持ち帰り</div>
+        <p>AIが支払う時代の金融機関の顧客再定義という問い</p>
       </div>
     </div>
+  </section>
 
-    <div class="segment-card">
-      <div class="segment-header" style="background:#7f1d1d;">
-        <span class="segment-title">テーマ1 — 「今週」の法制度変化と事業インパクト</span>
-        <span class="segment-time">19:45〜19:54（9分）</span>
+  <section>
+    <h2>T2: 発行・使う・つなぐ（10分）19:54〜20:04</h2>
+    <div class="theme-card t2-card">
+      <div class="card-header">
+        <span>T2</span>
+        <span>発行・使う・つなぐ</span>
+        <span class="badge">銀行のレイヤー選択</span>
       </div>
-      <div class="segment-body">
-        <div class="segment-purpose">「CLARITY法が今週審議される」というファクトを軸に、日本の法改正をリアルタイム文脈で解釈する。</div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 関口先生</div>
-          <div class="q-text">「今週木曜日（5月14日）に米上院銀行委員会でCLARITY法の審議が始まります。日本の規制議論にどう影響しますか？」</div>
-        </div>
-        <div class="moderator-note">関口先生の回答を受けて、藤井さんが「みずほとして、グローバルの規制が確立することで何が変わると見ているか」を一言加えることで議論に奥行きを出す</div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 関口先生</div>
-          <div class="q-text">「4月10日にFIEA改正案が国会提出されました。インサイダー取引規制の創設——実務にどう影響しますか？今日の参加者が来週月曜に"最初にやること"は何ですか？」</div>
-        </div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 永吉・中井</div>
-          <div class="q-text">「分離課税20%がすでに法律として成立しています（2026年3月31日）。みなさんの会社に問い合わせや社内議論は増えましたか？」</div>
-        </div>
-        <ul class="tips">
-          <li>「これは"今週"の話ですか？それとも来年？」で時間軸を明確にさせる</li>
-          <li>「大手FGと、みんなの銀行サイズの組織で、対応の速さはどれくらい違いますか？」で組織規模の差を引き出す</li>
-        </ul>
-        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem;">⏱ 短縮プラン（2分削減）: Q1とQ2をまとめ、関口先生の1問に絞る</p>
+      <div class="card-body">
+        <div class="question-label">根本の問い</div>
+        <p>発行者・接続者・顧客接点のうち、自社はどのレイヤーを取るべきか</p>
+        <div class="question-label">主担当</div>
+        <p><span class="speaker-tag sp-nagayoshi">永吉</span> <span class="speaker-tag sp-nakai">中井</span> 中心。<span class="speaker-tag sp-fujii">藤井</span> がレイヤー整理役。<span class="speaker-tag sp-sekiguchi">関口先生</span>: 法的リスクを補足（2分以内）</p>
+        <div class="question-label">フレーム設定（1分）</div>
+        <div class="question-text">「次のテーマ。銀行のポジションを3択で考えます。発行する・使う・つなぐ。どれが正解かではなく、自社はどれを取るべきかを考えていただきたい。永吉さんから。」</div>
+        <div class="question-label">→ 永吉さんへ（3分）</div>
+        <div class="question-text">「みんなの銀行として、この3択で今考えているポジションはどれですか？今言える範囲で正直に。」</div>
+        <div class="question-label">→ 中井さんへ（3分）</div>
+        <div class="question-text">「SMFGとして、どのレイヤーを本命と見ていますか？Progmatへの参画は"つなぐ"のか"発行する"のか、どちらに近いですか？」</div>
+        <div class="question-label">→ 関口先生へ（2分・補足）</div>
+        <div class="question-text">「法律家として見ると、この3つのレイヤーで最も法的リスクが集中するのはどこですか？今日の基調講演の補足として教えてください。」</div>
+        <div class="question-label">熱量ポイント</div>
+        <div class="warning-box">「今、デジタルバンクとメガバンクで全く違う答えが出ました。同じ"銀行"でも取るレイヤーが違う。これが今日一番の面白さかもしれません。」</div>
+        <div class="question-label">深掘り（余れば）</div>
+        <div class="question-text">「トークン化預金とステーブルコインのどちらが将来的に主流になるか——どちらに賭けますか？10秒で。」</div>
+        <div class="question-label">持ち帰り</div>
+        <p>自社はどのレイヤーを取るかという経営判断の問い</p>
       </div>
     </div>
+  </section>
 
-    <div class="segment-card">
-      <div class="segment-header" style="background:#065f46;">
-        <span class="segment-title">テーマ2 — ステーブルコイン「実装の現在地」とクロスボーダーへの接続</span>
-        <span class="segment-time">19:54〜20:03（9分）</span>
+  <section>
+    <h2>T3: 壊れたとき、誰が損をするのか（10分）20:04〜20:14</h2>
+    <div class="theme-card t3-card">
+      <div class="card-header">
+        <span>T3</span>
+        <span>壊れたとき、誰が損をするのか</span>
+        <span class="badge">失敗前提の設計思考</span>
       </div>
-      <div class="segment-body">
-        <div class="segment-purpose">登壇者が実際に「やった」「やっている」具体的な事例を中心に、クロスボーダー決済への接続も視野に入れて議論する。</div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 中井さん</div>
-          <div class="q-text">「マイナンバーカード×ステーブルコインの実証実験（2026年1月）で、一番の発見は何でしたか？」</div>
-          <div class="q-note">→ 続けて「次のステップとして何を考えていますか？プログラマビリティや、クロスボーダーへの接続はどう見ていますか？」</div>
-        </div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 永吉さん</div>
-          <div class="q-text">「BaaSの展開を通じて、ステーブルコインはBaaSの中でどう位置づけられますか？将来的なクロスボーダー活用の可能性はどう描いていますか？」</div>
-        </div>
-        <div class="moderator-note">永吉さんの回答を受けて、藤井さんが「みずほとして、ステーブルコインをクロスボーダー決済インフラとして見たとき何が課題か」という視点を補足で加えると議論が立体的になる</div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 関口先生</div>
-          <div class="q-text">「改正資金決済法で信託型ステーブルコインの裏付資産規制が緩和されました（国債も可能に）。これはクロスボーダー活用という観点でどんな意味を持ちますか？実務担当者が一番勘違いしやすいポイントは？」</div>
-        </div>
-        <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:5px;padding:0.6rem 0.8rem;font-size:0.8rem;margin-top:0.5rem;">
-          💡 <strong>クロスボーダー視点の補足:</strong> ステーブルコインは国内決済だけでなく、クロスボーダー送金コストの削減や即時決済で本来の力が発揮される。BaaSとステーブルコインの組み合わせで日本の金融インフラが海外に接続される可能性についても議論を広げる。
-        </div>
-        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem;">⏱ 短縮プラン（2分削減）: 中井さんの具体体験の深掘りに絞る</p>
+      <div class="card-body">
+        <div class="question-label">根本の問い</div>
+        <p>デペグ、カストディアン破綻、オペレーション事故を前提にすると設計はどう変わるか</p>
+        <div class="question-label">主担当</div>
+        <p><span class="speaker-tag sp-sekiguchi">関口先生（主役）</span> が法的・顧客保護の補助線を出す。狙い: 成功事例の紹介合戦を避け、リスクと設計論で議論の格を上げる</p>
+        <div class="question-label">フレーム設定（1分）</div>
+        <div class="question-text">「次のテーマは少し違います。Terra/Lunaのデペグ、FTXのカストディアン破綻。壊れたとき何が起きるかを一度前提にして考えます。関口先生から。」</div>
+        <div class="question-label">→ 関口先生へ（3.5分・このテーマの主役）</div>
+        <div class="question-text">「ステーブルコインがデペグした場合、日本の現行法では誰が責任を持ちますか？顧客が損をしたとき、発行者・取り扱い業者・銀行のどこに請求できますか？今日の基調講演の延長として、実務家として教えてください。」</div>
+        <div class="question-label">→ 永吉さんへ（2.5分）</div>
+        <div class="question-text">「デペグリスクを前提にすると、みんなの銀行としてステーブルコインを使う・つなぐ設計はどう変わりますか？」</div>
+        <div class="question-label">→ 中井さんへ（2.5分）</div>
+        <div class="question-text">「SMFGのリスク管理観点から見ると、どの壊れ方が最も怖いですか？デペグか、カストディアン破綻か、オペレーションか。」</div>
+        <div class="question-label">注意事項</div>
+        <div class="warning-box">関口先生の話が長くなりそうな場合 → 「ありがとうございます。永吉さん、今の法律の話を聞いて実務上どう受け止めますか？」で次へ</div>
+        <div class="question-label">持ち帰り</div>
+        <p>失敗前提の設計思考。壊れたとき誰が損をするかという問い</p>
       </div>
     </div>
+  </section>
 
-    <div class="segment-card">
-      <div class="segment-header" style="background:#4c1d95;">
-        <span class="segment-title">テーマ3 — 規制整備後の"気づき"と競争構造の変化</span>
-        <span class="segment-time">20:03〜20:11（8分）</span>
+  <section>
+    <h2>Slido / 会場Q&amp;A（9分）20:14〜20:23</h2>
+    <div class="theme-card slido-card">
+      <div class="card-header">
+        <span>Slido</span>
+        <span>会場Q&amp;A</span>
+        <span class="badge">9分確保・必須</span>
       </div>
-      <div class="segment-body">
-        <div class="segment-purpose">「規制整備が進んだことで見えてきたチャンスと罠」へ転換。参加者が持ち帰れる"気づき"に集中する。</div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 全員（各30秒）</div>
-          <div class="q-text">「規制整備が進んで"チャンスが広がった"と感じる点を一つ挙げてください。」</div>
-          <div class="q-note">→ 答えを受けて「逆に"見落としがちな罠"とは何ですか？」</div>
-        </div>
-        <div class="moderator-note">全員の回答が出た後、藤井さんが「AIとデジタルアセットを掛け合わせる観点から——たとえばAIエージェントがUSDCで少額決済する時代（Circle 5月8日開始）——規制整備がなければこの動きはなかった」という補足で、AIとの接続点を議論に組み込む</div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 関口先生</div>
-          <div class="q-text">「ガバナンス不備で問題になった事例パターン（匿名・一般化で）——2026年の新規制下で最もリスクが高い行為は何ですか？」</div>
-        </div>
-        <div class="q-block">
-          <div class="q-label">藤井さん → 永吉・中井</div>
-          <div class="q-text">「分離課税が2028年施行、機関投資家が本格参入したとき、御社のビジネスは何が変わりますか？クロスボーダーの文脈で変化はありますか？」</div>
-        </div>
-        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem;">⏱ 短縮プラン（2分削減）: 「チャンス/罠」1問に絞り、全員30秒ずつ答える形式へ</p>
-      </div>
-    </div>
-
-    <div class="segment-card">
-      <div class="segment-header" style="background:#5b21b6;">
-        <span class="segment-title">🎤 Slido / 会場Q&amp;A</span>
-        <span class="segment-time">20:11〜20:20（9分）</span>
-      </div>
-      <div class="segment-body">
-        <ol style="margin-left:1.2rem;font-size:0.85rem;">
-          <li style="margin-bottom:0.3rem;">Slidoの投票数上位から2〜3問を藤井さんがピックアップ</li>
-          <li style="margin-bottom:0.3rem;">各質問に最適な回答者を1名指名し、補足を別の登壇者に求める</li>
-          <li>会場挙手質問 1〜2問（時間が残れば）</li>
-        </ol>
-        <div class="slido-presets">
-          <h4>📋 Slidoプリセット推奨質問</h4>
-          <ul>
-            <li>「FIEA移行で、あなたの組織が最初に取り組むべきことは？（フリーテキスト）」</li>
-            <li>「ステーブルコイン実用化、何年後だと思いますか？（1〜2年 / 3〜5年 / 5年以上）」</li>
-            <li>「デジタルアセット規制で日本が世界より"進んでいる"と思いますか？（はい/いいえ）」</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="segment-card">
-      <div class="segment-header" style="background:#92400e;">
-        <span class="segment-title">テーマ4 — 6ヶ月後の予測と「今週できる1つのアクション」</span>
-        <span class="segment-time">20:20〜20:26（6分）</span>
-      </div>
-      <div class="segment-body">
-        <div class="segment-purpose"><strong>このセグメントのゴールは参加者が手帳に何かを書き込むこと。登壇者の言葉より参加者のアクションが優先。</strong></div>
-        <div class="q-block">
-          <div class="q-label">各登壇者（各30秒）</div>
-          <div class="q-text">「2026年後半、この業界で最も変化が起きると思う領域を一つ言ってください」</div>
-        </div>
-        <div class="q-block">
-          <div class="q-label">各登壇者（各30秒）</div>
-          <div class="q-text">「今日の参加者に、"今週中にやること"を一つ提案してください」</div>
-          <div class="q-note">例: 「CLARITY法の審議結果を来週月曜に社内共有する」「FIEA移行の影響範囲を法務に確認する」「ステーブルコイン×クロスボーダーについて担当部署と今週話す機会を作る」</div>
-        </div>
-        <div class="moderator-note">藤井さんはQ4の最後に「AI×デジタルアセット×クロスボーダーの観点からの予測」を短く加えて、パネル全体の知見を統合する役割として締める</div>
-        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem;">⏱ 短縮プラン: 今週アクションは必ず確保。予測が長引いたら30秒で切る。</p>
-      </div>
-    </div>
-
-    <div class="segment-card">
-      <div class="segment-header" style="background:#374151;">
-        <span class="segment-title">まとめ — 各自一言</span>
-        <span class="segment-time">20:26〜20:31（5分）</span>
-      </div>
-      <div class="segment-body">
-        <ul class="tips">
-          <li>藤井さんが「最後に一言ずつ」とリードし、<strong>逆順（中井→永吉→関口）</strong>で回す</li>
-          <li>各自1分以内（厳守）</li>
-          <li>関口先生が最後 = 「法律家から見た今日の総括」として自然な締め</li>
+      <div class="card-body">
+        <div class="question-label">Slido URL</div>
+        <p><strong>x.gd/S0wfv</strong></p>
+        <div class="question-label">進行方針</div>
+        <div class="question-text">「では、Slido（x.gd/S0wfv）に質問を入れてください。上位に来た質問を私がさばきます。今日のテーマに絡む質問ならなんでも。」</div>
+        <ul>
+          <li>1問あたり90〜120秒。5〜6問を目標</li>
+          <li>藤井さんが「これは関口先生に」「これは永吉さんと中井さんで」と即振り分け</li>
+          <li>法律系の細かい質問 → 「関口先生、補足があれば短く」（2分以内で処理）</li>
+          <li>タイムキーパー（阿部さん）: 9分で合図。残り2分で「最後に1問だけ」</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- モデレーターガイド -->
   <section>
-    <h2>5. モデレーターガイド（藤井達人さん向け）</h2>
-
-    <h3>藤井さんの役割設計</h3>
-    <div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:6px;padding:0.85rem 1rem;font-size:0.85rem;margin-bottom:0.75rem;">
-      藤井さんはモデレーターでありながら、AIとブロックチェーンの双方に精通している立場でもある。パネルの流れの中で「問いを発する」役割と同時に、「議論の節目に自身の知見を一言加えて議論を発展させる」役割も担う。特に「AI×ステーブルコイン×クロスボーダー」の接続点で藤井さん独自の視点が生きる場面を意図的に作る。
+    <h2>T4: 12ヶ月以内に動くのはどこか（8分）20:23〜20:31</h2>
+    <div class="theme-card t4-card">
+      <div class="card-header">
+        <span>T4</span>
+        <span>12ヶ月以内に動くのはどこか</span>
+        <span class="badge">全員一人称で予測</span>
+      </div>
+      <div class="card-body">
+        <div class="question-label">根本の問い</div>
+        <p>法人決済、AI決済、越境送金、地域経済のどこに最初の実需が出るか</p>
+        <div class="question-label">フレーム（0.5分）</div>
+        <div class="question-text">「最後のテーマ。12ヶ月以内という具体的な時間軸で話してください。来年の今頃、実際に動いているユースケースはどこに出ていますか？一人称でお願いします。」</div>
+        <div class="question-label">順番（各2分）</div>
+        <ul>
+          <li><span class="speaker-tag sp-nagayoshi">永吉さん</span> — 「12ヶ月以内に『これは動く』と確信しているユースケースを一つ、一人称で」</li>
+          <li><span class="speaker-tag sp-nakai">中井さん</span> — 「SMFGとして12ヶ月以内に本番化すると確信しているものを一つ」</li>
+          <li><span class="speaker-tag sp-sekiguchi">関口先生</span> — 「法律家として、12ヶ月以内に法的整備が追いつく領域・追いつかない領域を一言で」（1.5分）</li>
+          <li><span class="speaker-tag sp-fujii">藤井さん</span> — 「みずほCAOとして、AI×デジタルアセットで12ヶ月以内に動くと見ているのはここです」</li>
+        </ul>
+        <div class="question-label">持ち帰り</div>
+        <p>12ヶ月以内に動く領域のリスト——自社の優先度設計に使える</p>
+      </div>
     </div>
-
-    <h3>開会宣言</h3>
-    <div class="guide-box">「ありがとうございます。それでは、パネルディスカッションを始めます。私は本日モデレーターを務めます、みずほフィナンシャルグループの藤井と申します。」</div>
-
-    <h3>自己紹介フック</h3>
-    <div class="guide-box">
-      <strong>藤井さん自身（1分）:</strong><br>
-      「まず私から。みずほFGで執行役員CAO——Chief AI Officerを務めています。今年4月からAI推進室を70名体制に拡充しました。今日のテーマ"デジタルアセット規制"は、私がAI戦略と並行して最も注視している領域です。今日は解説の場ではなく、全員が当事者の場として進めます。私自身の視点も要所でお伝えしながら、3名の本音を引き出していきます。」
-    </div>
-    <div class="guide-box">
-      <strong>永吉さん導入（2分目安）:</strong><br>
-      「永吉さん、みんなの銀行という日本初のデジタルバンクを率いていらっしゃいます。BaaSは30社を超えるパートナーとの連携に拡大し、さらにステーブルコインの事業化も進めていると伺っています。自己紹介と、今日のテーマへの一言をお願いします。」
-    </div>
-    <div class="guide-box">
-      <strong>中井さん導入（2分目安）:</strong><br>
-      「三井住友FGのデジタル戦略部、中井さん。今年1月にマイナンバーカードとステーブルコインを組み合わせた決済実証をされましたね。その話も含めて、自己紹介をお願いします。」
-    </div>
-
-    <h3>時間管理ポイント</h3>
-    <div class="action-grid">
-      <span class="action-time">各テーマ残り2分</span><span>「少し時間が迫っておりますが、最後にひと言ずつ。」</span>
-      <span class="action-time">話しすぎ時</span><span>「ありがとうございます。〇〇さんはいかがですか？」とリダイレクト</span>
-      <span class="action-time">Slido残り1分</span><span>「もう1問だけ、Slidoから拾わせてください。」</span>
-      <span class="action-time">テーマ4短縮</span><span>「時間が押してきました。各自"今週やること"を30秒で一言ずつ。」</span>
-    </div>
-
-    <div class="compliance">
-      <h4>⚠️ コンプライアンス注意点</h4>
-      <ul style="margin-left:1rem;">
-        <li>特定企業の製品への言及が出たら「一般的な傾向として」「御社の文脈で」と和らげる</li>
-        <li>「投資すべき」「有望」などの表現が出たら「事業者としての見解として」と添える</li>
-        <li>法解釈の断定が出たら「現時点の見解として、各社の法務部門にも確認を」と補足する</li>
-      </ul>
-    </div>
-
-    <h3>クロージング</h3>
-    <div class="guide-box">「本日は非常に充実した55分でした。FIEA改正案・分離課税の成立・CLARITY法、そしてステーブルコインのクロスボーダーへの接続——これだけの変化が同時進行している中で、現場の最前線にいる3名の本音を聞けたことは、皆さんにとって大きな価値だったと思います。関口先生、永吉さん、中井さん、ありがとうございました。では水津さん、よろしくお願いします。」</div>
   </section>
 
-  <!-- 当日の注意事項 -->
   <section>
-    <h2>6. 当日の注意事項</h2>
-    <div class="caution">
-      <strong>⚠️ 5月14日（木）CLARITY法マークアップ結果を必ず確認すること</strong><br>
-      承認・継続・否決によってテーマ1の議論のトーンが変わる。当日スライドの「速報」として取り込めないか事前確認する。
-    </div>
-    <ul class="tips" style="margin-top:0.75rem;">
-      <li>Slidoのプリセット質問を事前設定しておく</li>
-      <li>テーマ4は唯一の「短縮バッファ」。時間が押した場合は「今週やること一言ずつ」のみに圧縮</li>
-      <li>まとめの逆順（中井→永吉→関口）は必ず守ること</li>
-      <li>自己紹介で超過した場合、テーマ1の深掘り質問を1問削って調整</li>
+    <h2>まとめ（4分）20:31〜20:35</h2>
+    <h3>藤井さんのラップアップ（1.5分）</h3>
+    <div class="info-box">「今日は4つ問いを立てました。顧客は誰か。どのレイヤーを取るか。壊れたとき誰が損をするか。12ヶ月以内に何が動くか。帰ったら一つだけ、自分の組織について問いを立ててください。制度の話ではなく、自社の担い方の話です。今日のパネリストに改めて拍手をお願いします。」</div>
+    <h3>逆順コメント（各30秒）</h3>
+    <p>中井さん → 永吉さん → 関口先生 → 藤井さん（最後の一言）</p>
+    <div class="question-text">「月曜日に何を一つ決めますか？30秒でどうぞ。」</div>
+  </section>
+
+  <section>
+    <h2>モデレーターガイド（藤井さん向け）</h2>
+    <div class="warning-box"><strong>最重要:</strong> 基調講演が終わった直後に必ず言う → 「ステーブルコインを暗号資産ではなく金融インフラとして見る。この前提でここから話します。」これを言わないと参加者も登壇者も「法律の続き」になる。</div>
+
+    <h3>時間管理</h3>
+    <table class="guide-table">
+      <thead>
+        <tr><th>チェックポイント</th><th>時刻</th><th>アクション</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>T1終了予告</td><td class="time-cell">19:52</td><td class="action-cell">「最後の質問にします」</td></tr>
+        <tr><td>T2開始</td><td class="time-cell">19:54</td><td class="action-cell">「3択の話をします」</td></tr>
+        <tr><td>T2終了予告</td><td class="time-cell">20:02</td><td class="action-cell">「関口先生に一言もらって次へ」</td></tr>
+        <tr><td>T3開始</td><td class="time-cell">20:04</td><td class="action-cell">「壊れたときの話をします」</td></tr>
+        <tr><td>T3終了予告</td><td class="time-cell">20:12</td><td class="action-cell">「最後の質問にします」</td></tr>
+        <tr><td>Slido開始</td><td class="time-cell">20:14</td><td class="action-cell">「Slido（x.gd/S0wfv）に質問を」</td></tr>
+        <tr><td>Slido終了</td><td class="time-cell">20:22</td><td class="action-cell">「最後に1問だけ」</td></tr>
+        <tr><td>T4開始</td><td class="time-cell">20:23</td><td class="action-cell">「12ヶ月の話をします」</td></tr>
+        <tr><td>まとめ開始</td><td class="time-cell">20:31</td><td class="action-cell">「4つの問いを振り返ります」</td></tr>
+        <tr><td>MC返し</td><td class="time-cell">20:35</td><td class="action-cell">「水津さん、お願いします」</td></tr>
+      </tbody>
+    </table>
+
+    <h3>関口先生の時間管理（重要）</h3>
+    <ul>
+      <li><strong>T1:</strong> 発言させない（聴衆として聞く）</li>
+      <li><strong>T2:</strong> 補足として2分以内</li>
+      <li><strong>T3:</strong> 主役として3.5分。それ以上は「ありがとうございます」で切る</li>
+      <li><strong>Slido:</strong> 法律系は「補足があれば」と短く</li>
+      <li><strong>T4:</strong> 1.5分以内</li>
     </ul>
+
+    <h3>場が静まった時のリカバリー</h3>
+    <ul>
+      <li>答えが短すぎた → 「もう少し具体的に、自社でどんな議論が起きていますか？」</li>
+      <li>「わからない」と言われた → 「それが正直なところですね。では別の角度で——」</li>
+      <li>話が長くなった → 「ありがとうございます。一点だけ確認させてください——」</li>
+    </ul>
+
+    <h3>禁止事項</h3>
+    <ul class="prohibit-list">
+      <li>特定銘柄・商品への投資推奨</li>
+      <li>断定的な法解釈（「〜は必ず違法です」等）</li>
+      <li>競合他社の内情・非公開情報</li>
+      <li>「〜についてご説明ください」型の授業形式</li>
+    </ul>
+
+    <h3>短縮・延長プラン</h3>
+    <table class="guide-table">
+      <thead>
+        <tr><th>状況</th><th>対応</th><th>効果</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>時間が押した</td><td>T4を「各自1分で一言のみ」に圧縮</td><td>−3分</td></tr>
+        <tr><td>時間が押した</td><td>まとめを藤井さん1分のみに</td><td>−2分</td></tr>
+        <tr><td>時間が余った</td><td>Slido拡大「もう1問」</td><td>＋2分</td></tr>
+        <tr><td>時間が余った</td><td>T2深掘り「トークン化預金 vs ステーブルコイン」</td><td>＋2分</td></tr>
+      </tbody>
+    </table>
   </section>
 
-</main>
+</div>
 
-<footer>
-  FinGATE Campus #27 パネルディスカッション設計書 — 登壇者・スタッフ内部資料
-</footer>
+<div class="footer">
+  FinGATE Campus #27 パネルディスカッション設計書 | 確定テーマ最終版 | 2026-05-15 | 内部配布用
+</div>
 
 </body>
 </html>
