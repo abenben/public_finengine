@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>リサーチ発見一覧 — FinGATE Campus #27</title>
+  <style>
+    :root {
+      --navy: #0d2240;
+      --blue: #1a4f8a;
+      --gold: #c9a84c;
+      --white: #ffffff;
+      --light: #f0f4f9;
+      --gray: rgba(255,255,255,0.7);
+      --text-dark: #1a2a42;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      background: var(--light);
+      color: var(--text-dark);
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 32px 40px;
+      border-radius: 12px 12px 0 0;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    header .meta {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.8;
+    }
+
+    header .stats {
+      display: flex;
+      gap: 24px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    header .stat-item {
+      background: rgba(255,255,255,0.1);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    header .stat-item strong {
+      color: var(--gold);
+      display: block;
+      font-size: 18px;
+    }
+
+    .legend {
+      background: var(--white);
+      padding: 12px 24px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      font-size: 13px;
+      border-left: 3px solid var(--gold);
+      flex-wrap: wrap;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 8px; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .badge-3 { background: #1a5c2a; color: #6ef78f; }
+    .badge-2 { background: #4a3800; color: var(--gold); }
+    .badge-1 { background: #3a3a3a; color: #aaaaaa; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(13,34,64,0.10);
+    }
+
+    thead tr {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    thead th {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    thead th:nth-child(1) { width: 110px; }
+    thead th:nth-child(2) { width: 90px; text-align: center; }
+    thead th:nth-child(3) { }
+
+    tbody tr {
+      border-bottom: 1px solid #e0e8f0;
+      transition: background 0.15s;
+    }
+
+    tbody tr:hover { background: #e8f0f8; }
+
+    tbody tr.priority-3 { border-left: 4px solid #3aad5a; }
+    tbody tr.priority-2 { border-left: 4px solid var(--gold); }
+    tbody tr.priority-1 { border-left: 4px solid #888; }
+
+    tbody td {
+      padding: 12px 20px;
+      font-size: 13.5px;
+      vertical-align: top;
+      line-height: 1.7;
+    }
+
+    .date-cell {
+      white-space: nowrap;
+      font-family: 'Inter', monospace;
+      font-size: 12px;
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .importance-cell {
+      text-align: center;
+    }
+
+    .finding-cell a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .finding-cell a:hover {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    .section-divider {
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    footer {
+      background: var(--navy);
+      color: var(--gray);
+      padding: 20px 40px;
+      border-radius: 0 0 12px 12px;
+      border-top: 2px solid var(--gold);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    footer strong { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      header { padding: 20px; }
+      header h1 { font-size: 18px; }
+      tbody td { padding: 10px 12px; font-size: 12.5px; }
+      thead th { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>リサーチ発見一覧 — FinGATE Campus #27（027_20260522）</h1>
+    <div class="meta">
+      作成日: 2026年5月18日 ／ 対象リサーチ: 2026-05-10・05-11・05-13・05-15・05-18 の5回分
+    </div>
+    <div class="stats">
+      <div class="stat-item"><strong>42</strong>総発見件数</div>
+      <div class="stat-item"><strong>5回</strong>リサーチ実施</div>
+      <div class="stat-item"><strong>2025-06〜2026-05</strong>カバー期間</div>
+      <div class="stat-item"><strong>2026-05-22</strong>イベント開催日</div>
+    </div>
+  </header>
+
+  <div class="legend">
+    <strong>重要度凡例:</strong>
+    <div class="legend-item"><span class="badge badge-3">★★★</span> 最重要（テーマ直結・高インパクト）</div>
+    <div class="legend-item"><span class="badge badge-2">★★</span> 重要（関連性高い）</div>
+    <div class="legend-item"><span class="badge badge-1">★</span> 参考（背景理解）</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>重要度</th>
+        <th>発見</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 2026-05-18 -->
+      <tr class="section-divider"><td colspan="3">── 2026年5月18日（直近3日間リサーチ）</td></tr>
+
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.cnbc.com/2026/05/14/clarity-act-congress-crypto-senate.html" target="_blank">CLARITY Act 上院本会議審議へ——本会議60票超えには数ヶ月かかるとアナリストが予測</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.theblock.co/post/391386/sbi-holdings-startale-jpysc" target="_blank">JPYSC（SBI×Startale）Q2 2026正式ローンチ——機関投資家向け信託型円SC。AIエージェント決済・RWAトークン化資産での活用も公式言及</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://startupfortune.com/aws-and-google-cloud-just-made-ai-agents-stablecoin-buyers/" target="_blank">AWS・Google CloudがほぼAIエージェントのUSDCステーブルコイン決済機能を実装——x402プロトコルで9ヶ月1.4億トランザクション・$4,300万処理済み</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.cryptotimes.io/2026/05/13/ejpy-stablecoin-to-launch-on-ethereum-and-japan-open-chain/" target="_blank">EJPY（Japan Blockchain Foundation）信託型円ステーブルコイン発行正式決定——Ethereum + Japan Open Chain（Dentsu・NTT Com等14社）。B2B決済・Web3送金向け、2026年度内発行目標</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://coinpost.jp/?p=684342" target="_blank">金融庁「暗号資産・ステーブルコイン課」を2026年夏に新設——総合政策局内に正式な「課」として設置、暗号資産分野を一元管理する体制へ</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://innovationlaw.jp/crypto-fiea-amendment-2026/" target="_blank">暗号資産の金商法（FIEA）移行——2026年通常国会に改正法案を提出予定。施行は2027年前後。インサイダー取引禁止・ホワイトペーパー義務・年次開示義務</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica" target="_blank">MiCA（EU暗号資産市場規制）完全施行まで残り約2ヶ月（2026年7月1日）——ライセンス未取得CASPはEU法違反・事業停止命令の対象</a></td>
+      </tr>
+      <tr class="priority-1">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-1">★</span></td>
+        <td class="finding-cell"><a href="https://www.davispolk.com/insights/client-update/genius-act-passes-senate" target="_blank">GENIUS Act（米ステーブルコイン法）は2025年7月成立済み——2026年5月時点はFRB・OCC・FDICによる細則策定・実施規則の最終化段階</a></td>
+      </tr>
+      <tr class="priority-1">
+        <td class="date-cell">2026-05-18</td>
+        <td class="importance-cell"><span class="badge badge-1">★</span></td>
+        <td class="finding-cell"><a href="https://www.cryptopolitan.com/japan-sells-30-billion-in-u-s-debt/" target="_blank">日本が2026年Q1に約$29.6Bの米国国債を売却——2022年以来最大規模。国内金利（10年JGB）が1997年5月以来の高水準に</a></td>
+      </tr>
+
+      <!-- 2026-05-15 -->
+      <tr class="section-divider"><td colspan="3">── 2026年5月15日（input_info統合版リサーチ）</td></tr>
+
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-15</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://bankingjournal.aba.com/2026/05/senate-banking-committee-advances-clarity-act/" target="_blank">CLARITY法 上院銀行委員会 15対9で可決（2026-05-14）——全13共和党＋民主党2名（Gallego・Alsobrooks）が賛成。DeFi開発者保護・ポートフォリオマージン採択。7月4日大統領署名がホワイトハウス目標</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-15</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.coindeskjapan.com/304126/" target="_blank">円ステーブルコイン6陣営が全て動き出し（2026-05-13〜15）——EJPY・JPYC・JPYSC・ProgmatCoin・PayPay・みんなの銀行が競合。永吉さん・中井さんが当事者として参加</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-15</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.circle.com/pressroom/circle-launches-ai-infrastructure-to-power-the-agentic-economy" target="_blank">Circle Agent Stack + Solana×Google Pay.sh でAI×ステーブルコインが実装フェーズへ——AIエージェントが自律的にUSDCでナノ決済（$0.000001）。みずほCAO藤井さんが最も語れるテーマ</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-15</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">英中銀（BoE）副総裁Sarah Breeden「規制案は保守的すぎた」と見直しを表明——個人保有上限£20,000・40%無利息中央銀行預入要件を廃止検討。年末までにシステミック発行者の申請受付開始（FT報道）</td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-15</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">MASがBasel 1,250%リスクウェイト→原則ベースGroup 1に大幅緩和（2026-04-30コンサルテーション）——パーミッションレスブロックチェーン資産が銀行保有の対象へ。コメント締切2026-05-18</td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-14</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.sbbit.jp/" target="_blank">Charles Schwab スポット暗号資産取引開始（0.75%手数料・Paxos経由・3,910万口座）——TradFiの本格参入が始まった</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-14</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">Morgan Stanley スポットBitcoin ETFローンチ——TradFiの主流化が加速</td>
+      </tr>
+
+      <!-- 2026-05-13 -->
+      <tr class="section-divider"><td colspan="3">── 2026年5月13日（ステーブルコイン最新動向リサーチ）</td></tr>
+
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-13</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://startupfortune.com/aws-and-google-cloud-just-made-ai-agents-stablecoin-buyers/" target="_blank">Solana×Google Cloud「Pay.sh」：AIエージェントがAPIコストをステーブルコインで秒単位自動支払い——x402プロトコル・MPP活用</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-13</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">トークン化国債が150億ドル突破（2026-05-13時点）——NUVA（Animoca Brands）が機関投資家向けRWAマーケットプレイスをEthereumでローンチ</td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-13</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">JPYC累計発行32億円・Series B 2ndクローズ28億円追加調達——M2M（Machine to Machine）・AI決済のネイティブ通貨化を目標。LINE NEXT・ソニー銀行・SMFG等と連携</td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-13</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.neweconomy.jp/posts/572117" target="_blank">Progmat TJGB WG（2026-05-08開始）：トークン化国債を担保にT+0レポ決済——メガバンク3行・BlackRock Japan・東京海上HD参加。基盤をCorda→Avalanche L1専用チェーンへ移行（2026年6月末完了予定）</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-13</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://www.smfg.co.jp/english/dx_link/article/0200.html" target="_blank">三井住友カード×マイナウォレット×JPYCタッチ決済 実証実験第2弾——SUSHI TOP MARKETINGが公表。中井沙織氏（SMFG）が主導するシリーズ</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-12</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://www.circle.com/" target="_blank">Circle Q1 2026決算：USDC流通額$77B（前年比+28%）・オンチェーン取引量$21.5兆ドル（前年比+263%）——ステーブルコイン決済インフラとしての地位が確立</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-12</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://www.cryptotimes.io/2026/05/13/jpmorgan-files-for-jltxx-new-tokenized-treasury-fund-on-ethereum-for-stablecoins/" target="_blank">JPMorgan JLTXX SEC申請——GENIUS Act準拠準備金向けオンチェーン流動性トークンMMF（Ethereum）。最低投資額$100万。TradFiの本格参入を示す</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-12</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell">Anthropic 未公開株トークン化・二次流通を「無効（void）」と明言——HiiveやForgeを名指しで警告。発行体権利制限vs二次流通市場参入者の利害対立（規制未整備領域の課題）</td>
+      </tr>
+
+      <!-- 2026-05-11/12 -->
+      <tr class="section-divider"><td colspan="3">── 2026年5月11〜12日（Circle Arc・CLARITY法全文）</td></tr>
+
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-12</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://decrypt.co/367490/circle-ai-agents-usdc-stablecoin-powers-222m-arc-token-sale" target="_blank">Circle Arc ブロックチェーン プレセール$2.22億ドル（FDV $30億）——投資家：a16z（リード）・BlackRock・Apollo・ICE（NYSE親会社）・SBI・ARK・Standard Chartered。USDCネイティブL1、EVM互換・量子耐性署名</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-11</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.coindesk.com/policy/2026/05/11/clarity-act-in-the-flesh-unveiled-by-u-s-senate-banking-committee-before-hearing" target="_blank">CLARITY法全文（309ページ）が上院銀行委員会により公開（2026-05-11）——「保有だけの利息・利回りは禁止」「bona fide な取引連動報酬は許容」が確定。DeFi開発者を送金業者登録から免除</a></td>
+      </tr>
+
+      <!-- 2026-05-11 みんなの銀行 -->
+      <tr class="section-divider"><td colspan="3">── 2026年5月11日（みんなの銀行クロスボーダーリサーチ）</td></tr>
+
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-11</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://www.intelligentfin.tech/2025/10/02/mufg-bank-to-adopt-minna-banks-full-cloud-core-system-for-new-digital-bank/" target="_blank">みんなの銀行BaaS30社超・ZDF（ゼロバンク・デザインファクトリー）の東南アジア展開意向——MUFGへの外販（2025年5月）が初の外部提供。次段階として東南アジアへのグローバル展開を目指す</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-11</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://paymentnavi.com/paymentnews/163188.html" target="_blank">みんなの銀行「みんなの銀行2.0」としてステーブルコイン×Web3ウォレット事業化を方針として掲げる——Solana Japan・Fireblocks・TISとの共同検討（2025年7月発表）、2026年内事業化判断予定</a></td>
+      </tr>
+
+      <!-- 2026-05-10 -->
+      <tr class="section-divider"><td colspan="3">── 2026年5月10日（初回デジタルアセット規制リサーチ）</td></tr>
+
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-08</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.neweconomy.jp/posts/572117" target="_blank">Progmat「トークン化国債WG」設置（2026-05-08キックオフ）——メガバンク3行参加。目標：TJGB（日本国債トークン）を担保にステーブルコインでT+0レポを実現。2026年内報告書公表予定</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-08</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.circle.com/pressroom/circle-launches-ai-infrastructure-to-power-the-agentic-economy" target="_blank">Circle AIエージェント向けUSDCナノペイメンツをメインネット開始——$0.000001のガスフリー高速マイクロ決済。AIエージェントが自律的にUSDCで支払い</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-05-08</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">BlackRock、10億ドルのトークン化ファンドを新規申請——RWA（現実資産トークン化）市場への大手TradFi参入が加速</td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-05-08</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://coinpost.jp/?p=707494" target="_blank">韓国、2027年1月から仮想通貨課税を正式確認——税務当局がAIによるオンチェーン監視システムを先行導入</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-04-30</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">MAS（シンガポール）Consultation Paper P009-2026：パーミッションレスSCへのBasel Group 1適用可能性——Basel 1,250%リスクウェイトから大幅緩和。銀行がUSDC・USDT等を保有しやすくなる</td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-04-29</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.coindesk.com/business/2026/04/29/visa-expands-stablecoin-settlement-network-as-volume-hits-usd7-billion-run-rate" target="_blank">Visa ステーブルコイン決済が四半期$70億（前四半期比+50%）に拡大——9チェーン対応。ステーブルコイン送金コスト$0.01〜$1.00（SWIFT: $25〜$50）、決済速度10,000倍以上</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-04-10</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://innovationlaw.jp/crypto-fiea-amendment-2026/" target="_blank">金融商品取引法改正案 国会提出（2026-04-10）——暗号資産規制をPSA（資金決済法）→FIEA（金商法）へ移管。インサイダー取引規制創設・情報公表義務拡大・責任準備金保有義務化。施行予定2027年中</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-04-08</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.federalreserve.gov/econres/notes/feds-notes/stablecoins-in-2025-developments-and-financial-stability-implications-20260408.html" target="_blank">Federal Reserve FEDS Notes：ステーブルコイン時価総額3,170億ドル（前年比+50%）——USDT58%・USDC25%。GENIUS Act施行後Ethereum上ステーブルコイン取引50%増</a></td>
+      </tr>
+
+      <!-- 2026-03 -->
+      <tr class="section-divider"><td colspan="3">── 2026年3月以前（制度整備フェーズ）</td></tr>
+
+      <tr class="priority-3">
+        <td class="date-cell">2026-03-31</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.coindeskjapan.com/329002/" target="_blank">暗号資産 分離課税20%（所得税15.315%＋地方税5%）成立——3年間損失繰越控除も導入。現行最大55%から大幅引き下げ。適用開始はFIEA施行翌年（2028年1月1日以降見込み）</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2026-03-27</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell">デジタル地方債 法改正閣議決定（2026-03-27）——スマートコントラクトによる自動利払い・ポイント配布が可能に。施行2027年4月1日以降の地方債から適用。NRI調査：関心層60%が「0.3%低い利回りでも社会的意義があれば投資」</td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-02-13</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://www.nikkei.com/article/DGXZQOUB132750T10C26A2000000/" target="_blank">金融相が3メガバンク共同ステーブルコイン実証（野村HD・大和証券も参加）に政府支援を表明——「画期的」と評価</a></td>
+      </tr>
+      <tr class="priority-2">
+        <td class="date-cell">2026-01-23</td>
+        <td class="importance-cell"><span class="badge badge-2">★★</span></td>
+        <td class="finding-cell"><a href="https://www.smfg.co.jp/english/dx_link/article/0200.html" target="_blank">三井住友カード×マイナウォレット×JPYC：マイナンバーカード活用ステーブルコイン決済実証実験——ライジングゼファーフクオカHGで実施（2026年1月）。中井沙織氏（SMFG）が主導</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2025-07-18</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.davispolk.com/insights/client-update/genius-act-passes-senate" target="_blank">GENIUS Act（米ステーブルコイン法）成立——上院68-30可決後、2025年7月17日下院可決・大統領署名。1:1準備資産義務・利息禁止・月次開示・監査義務。2027年1月完全施行</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2025-06-13</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://www.businesslawyers.jp/articles/1476" target="_blank">改正資金決済法 成立・公布（2025年6月）——信託型SC裏付資産の運用範囲を拡大（国債等も可）。電子決済手段等取引業（仲介業）の新設。2026年内施行見込み</a></td>
+      </tr>
+      <tr class="priority-3">
+        <td class="date-cell">2025-05-27</td>
+        <td class="importance-cell"><span class="badge badge-3">★★★</span></td>
+        <td class="finding-cell"><a href="https://diamond.jp/articles/-/375818" target="_blank">三菱UFJ銀行が新設デジタルバンクの基幹システムにみんなの銀行（ZDF）を採用決定——フルクラウド型コアバンキングをGoogle Cloud上で外販（BaaS本格展開の第一歩）。永吉健一頭取が「第二創業期」と位置付け</a></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <footer>
+    <strong>データソース:</strong> campus-research スキル実施の5回分リサーチ（2026-05-10・05-11・05-13・05-15・05-18）<br>
+    <strong>総発見件数:</strong> 42件 ／ <strong>作成日:</strong> 2026年5月18日 ／ <strong>作成者:</strong> Claude Code（Claude Sonnet 4.6）<br>
+    本資料は情報収集のみを目的とし、投資助言・法的見解を提供するものではありません。
+  </footer>
+
+</div>
+</body>
+</html>
